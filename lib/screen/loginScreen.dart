@@ -1,6 +1,4 @@
 import 'package:authentication/EmailLogin/authenticationWidget.dart';
-import 'package:authentication/EmailLogin/sign_up.dart';
-import 'package:authentication/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:prabasi_anchalika_sangha/screen/homescreen.dart';
 
@@ -29,7 +27,7 @@ class LoginPage extends StatelessWidget {
                 ));
           },
           isImageVisible: false,
-          onSignUpPressed: (userModel) {},
+          onSignUpPressed: () {},
         ),
       ),
     );
