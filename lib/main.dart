@@ -14,6 +14,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Flutter Login UI',
         debugShowCheckedModeBanner: false,
-        home: LoginPage(title: 'PAS'));
+        home: LoginPage(title: 'Prabasi Anchalika Sangha'));
   }
 }

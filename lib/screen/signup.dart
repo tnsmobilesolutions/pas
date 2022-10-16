@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:prabasi_anchalika_sangha/screen/homescreen.dart';
 
 class SignUpWidget extends StatelessWidget {
