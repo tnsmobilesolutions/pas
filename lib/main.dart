@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:prabasi_anchalika_sangha/screen/homescreen.dart';
 
 import 'package:prabasi_anchalika_sangha/screen/loginscreen.dart';
 
@@ -15,8 +17,26 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Login UI',
-        debugShowCheckedModeBanner: false,
-        home: LoginPage(title: 'Prabasi Anchalika Sangha'));
+      title: 'Flutter Login UI',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.active) {
+            final user = snapshot.data;
+
+            if (user == null) {
+              return LoginPage(title: 'Prabasi Anchalika Sangha');
+            } else {
+              return HomeWidget();
+            }
+          }
+          return const Center(child: CircularProgressIndicator());
+        },
+      ),
+    );
   }
 }

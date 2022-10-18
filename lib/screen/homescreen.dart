@@ -1,8 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:prabasi_anchalika_sangha/API/userAPI.dart';
+import 'package:prabasi_anchalika_sangha/model/userModel.dart';
+import 'package:prabasi_anchalika_sangha/screen/loginscreen.dart';
 import 'package:prabasi_anchalika_sangha/screen/searchuser.dart';
 
-class HomeWidget extends StatelessWidget {
-  const HomeWidget({Key? key}) : super(key: key);
+enum APIType { search, fetchAll }
+
+class HomeWidget extends StatefulWidget {
+  HomeWidget({Key? key}) : super(key: key);
+
+  @override
+  State<HomeWidget> createState() => _HomeWidgetState();
+}
+
+class _HomeWidgetState extends State<HomeWidget> {
+  String searchItem = '';
+
+  APIType? type;
+
+  String? _selectedSearchType;
+
+  userModel? selectUser;
+
+  List<String> searchBy = [
+    'Name',
+    'Sangha',
+    'Blood Group',
+    'City',
+    'Proffession'
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    type = APIType.fetchAll;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +67,22 @@ class HomeWidget extends StatelessWidget {
                   MaterialPageRoute(
                       builder: (context) => const SerachUserWidget()));
             }),
+          ),
+          IconButton(
+            onPressed: () {
+              UserAPI().logout();
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return LoginPage(
+                    title: 'Welcome',
+                  );
+                },
+              ));
+            },
+            icon: Icon(
+              Icons.logout_rounded,
+              color: Color(0xFFfa6e0f),
+            ),
           )
         ],
       ),
@@ -42,7 +90,7 @@ class HomeWidget extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListView.builder(
-            itemCount: 10,
+            itemCount: 3,
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.all(8.0),

@@ -135,8 +135,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
 
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const HomeWidget()),
+                      MaterialPageRoute(builder: (context) => HomeWidget()),
                     );
                   },
                   child: const Text('Submit'),

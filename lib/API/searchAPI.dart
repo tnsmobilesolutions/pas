@@ -1,71 +1,50 @@
-import 'package:authentication/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:prabasi_anchalika_sangha/model/CompleteProfileModel.dart';
+
 import 'package:prabasi_anchalika_sangha/model/userModel.dart';
 
 class SearchAPI {
-  Future<List<userModel>?> searchByName(
+  Future<List<userModel>?> searchfromFirebase(
       String? searchBy, String searchedItem) async {
     final CollectionReference userCollection =
         FirebaseFirestore.instance.collection('users');
     return userCollection.get().then((querysnapshot) {
-      List<userModel> resultMedicines = [];
+      List<userModel> resultUser = [];
       for (var element in querysnapshot.docs) {
         final userData = element.data() as Map<String, dynamic>;
         final user = userModel.fromMap(userData);
-
         if (searchBy == 'Name') {
           if (user.name?.toLowerCase().contains(searchedItem.toLowerCase()) ??
               false) {
-            resultMedicines.add(user);
+            resultUser.add(user);
           }
         }
-      }
-      return resultMedicines;
-    });
-  }
-
-//Search by addOnData
-  Future<List<CompleteProfileModel>?> searchByAddOn(
-      String? searchBy, String searchedItem) {
-    final CollectionReference userCollection =
-        FirebaseFirestore.instance.collection('users');
-    return userCollection.get().then((querysnapshot) {
-      List<CompleteProfileModel> resultMedicines = [];
-      for (var element in querysnapshot.docs) {
-        final addOnData = element.data() as Map<String, dynamic>;
-        final userSpecific = CompleteProfileModel.fromMap(addOnData);
         if (searchBy == 'Sangha') {
-          if (userSpecific.sangha
-                  ?.toLowerCase()
-                  .contains(searchedItem.toLowerCase()) ??
+          if (user.sangha?.toLowerCase().contains(searchedItem.toLowerCase()) ??
               false) {
-            resultMedicines.add(userSpecific);
+            resultUser.add(user);
           }
         } else if (searchBy == 'Blood Group') {
-          if (userSpecific.bloodgroup
+          if (user.bloodgroup
                   ?.toLowerCase()
                   .contains(searchedItem.toLowerCase()) ??
               false) {
-            resultMedicines.add(userSpecific);
+            resultUser.add(user);
           }
         } else if (searchBy == 'City') {
-          if (userSpecific.city
-                  ?.toLowerCase()
-                  .contains(searchedItem.toLowerCase()) ??
+          if (user.city?.toLowerCase().contains(searchedItem.toLowerCase()) ??
               false) {
-            resultMedicines.add(userSpecific);
+            resultUser.add(user);
           }
         } else if (searchBy == 'Proffession') {
-          if (userSpecific.proffesion
+          if (user.proffesion
                   ?.toLowerCase()
                   .contains(searchedItem.toLowerCase()) ??
               false) {
-            resultMedicines.add(userSpecific);
+            resultUser.add(user);
           }
         }
       }
-      return resultMedicines;
+      return resultUser;
     });
   }
 }

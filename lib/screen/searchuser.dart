@@ -1,48 +1,127 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:prabasi_anchalika_sangha/API/searchAPI.dart';
+import 'package:prabasi_anchalika_sangha/API/userAPI.dart';
+import 'package:prabasi_anchalika_sangha/model/userModel.dart';
 import 'package:prabasi_anchalika_sangha/screen/searchresult.dart';
 
-class SerachUserWidget extends StatelessWidget {
+enum APIType { search, fetchAll }
+
+class SerachUserWidget extends StatefulWidget {
   const SerachUserWidget({Key? key}) : super(key: key);
+
+  @override
+  State<SerachUserWidget> createState() => _SerachUserWidgetState();
+}
+
+class _SerachUserWidgetState extends State<SerachUserWidget> {
+  final TextEditingController SearchController = TextEditingController();
+  String searchItem = '';
+  APIType? type;
+  String? _selectedSearchType;
+  userModel? selectebutton;
+
+  userModel? selectUser;
+
+  List<String> searchBy = [
+    'Name',
+    'Sangha',
+    'Blood Group',
+    'City',
+    'Proffession'
+  ];
+
+  List<userModel>? searchResult = [];
+
+  @override
+  void initState() {
+    super.initState();
+    type = APIType.fetchAll;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Search User'),
-        ),
-        body: SingleChildScrollView(
-            child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(children: [
-                  const SizedBox(height: 10),
-                  TextFormField(
-                      decoration: const InputDecoration(
-                          icon: Icon(Icons.person), labelText: "Name")),
-                  TextFormField(
-                      decoration: const InputDecoration(
-                          icon: Icon(Icons.home), labelText: "Sangha")),
-                  TextFormField(
-                      decoration: const InputDecoration(
-                          icon: Icon(Icons.water_rounded),
-                          labelText: "Blood Group")),
-                  TextFormField(
-                      decoration: const InputDecoration(
-                          icon: Icon(Icons.location_city_rounded),
-                          labelText: "City")),
-                  TextFormField(
-                      decoration: const InputDecoration(
-                          icon: Icon(Icons.work), labelText: "Proffession")),
-                  const SizedBox(height: 30),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SerachResultWidget()),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                DropdownButton(
+                  focusColor: Colors.grey,
+                  hint: Text('Search By'),
+                  borderRadius: BorderRadius.circular(15),
+                  value: _selectedSearchType,
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedSearchType = value;
+                    });
+                  },
+                  items: searchBy.map(
+                    (val) {
+                      return DropdownMenuItem(
+                        value: val,
+                        child: Text(val),
                       );
                     },
-                    child: const Text('Search'),
-                  )
-                ]))));
+                  ).toList(),
+                  iconEnabledColor: Colors.blue,
+                  iconDisabledColor: Colors.blue,
+                  iconSize: 40,
+                  icon: Icon(Icons.arrow_drop_down_outlined),
+                  underline: Text(''),
+                ),
+                Expanded(
+                  child: TextFormField(
+                    onChanged: (value) {
+                      setState(() {
+                        searchItem = value.toLowerCase();
+                      });
+                    },
+                    decoration: InputDecoration(
+                      // icon: const Icon(Icons.search),
+                      labelText: "Search What you want",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            CupertinoButton(
+                child: Text('Search'),
+                onPressed: () async {
+                  final searchResult11 = await SearchAPI()
+                      .searchfromFirebase(_selectedSearchType, searchItem);
+                  setState(() {
+                    searchResult = searchResult11;
+                  });
+                }),
+            const SizedBox(height: 30),
+            ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemCount: searchResult?.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: Text(searchResult != null
+                      ? searchResult![index].name.toString()
+                      : ''),
+                  subtitle: Text(searchResult![index].sangha.toString()),
+                );
+              },
+            ),
+          ]),
+        ),
+      ),
+    );
   }
 }

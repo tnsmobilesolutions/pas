@@ -112,27 +112,36 @@ class UserAPI {
       },
     );
   }
+
+  //
+  logout() async {
+    try {
+      await auth.signOut();
+    } catch (e) {
+      print(e); //
+    }
+  }
   //Fetch AddonData
 
-  Future<List<CompleteProfileModel>?> fetchprofileData() {
-    final uid = FirebaseAuth.instance.currentUser?.uid;
+  // Future<List<CompleteProfileModel>?> fetchprofileData() {
+  //   final uid = FirebaseAuth.instance.currentUser?.uid;
 
-    CollectionReference userCollection =
-        FirebaseFirestore.instance.collection('users');
+  //   CollectionReference userCollection =
+  //       FirebaseFirestore.instance.collection('users');
 
-    return userCollection.get().then(
-      (querySnapshot) {
-        List<CompleteProfileModel>? lstUsers = [];
-        for (var element in querySnapshot.docs) {
-          final userDataList = element.data() as Map<String, dynamic>;
+  //   return userCollection.get().then(
+  //     (querySnapshot) {
+  //       List<CompleteProfileModel>? lstUsers = [];
+  //       for (var element in querySnapshot.docs) {
+  //         final userDataList = element.data() as Map<String, dynamic>;
 
-          final user = CompleteProfileModel.fromMap(userDataList);
+  //         final user = CompleteProfileModel.fromMap(userDataList);
 
-          lstUsers.add(user);
-        }
-        print('+++$lstUsers+++');
-        return lstUsers;
-      },
-    );
-  }
+  //         lstUsers.add(user);
+  //       }
+  //       print('+++$lstUsers+++');
+  //       return lstUsers;
+  //     },
+  //   );
+  // }
 }
