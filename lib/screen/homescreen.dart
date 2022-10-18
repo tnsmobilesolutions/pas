@@ -1,4 +1,3 @@
-import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:prabasi_anchalika_sangha/screen/searchuser.dart';
 
@@ -8,19 +7,28 @@ class HomeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFf6f6f6),
       appBar: AppBar(
+        elevation: 0,
+        backgroundColor: const Color(0xFFf6f6f6),
         automaticallyImplyLeading: false,
-        title: const Text('Home'),
+        title: const Text(
+          'Home',
+          style: TextStyle(color: Colors.black),
+        ),
         centerTitle: true,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Color(0xFFfa6e0f),
+          ),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.search),
+            icon: const Icon(Icons.search, color: Color(0xFFfa6e0f)),
             onPressed: (() {
               Navigator.push(
                   context,
@@ -41,6 +49,7 @@ class HomeWidget extends StatelessWidget {
                 child: GestureDetector(
                   child: Card(
                       elevation: 10,
+                      shadowColor: const Color(0xFFfa6e0f),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
                       child: Row(
@@ -49,7 +58,7 @@ class HomeWidget extends StatelessWidget {
                           const Padding(
                             padding: EdgeInsets.all(8.0),
                             child: CircleAvatar(
-                                backgroundColor: Colors.blueAccent,
+                                backgroundColor: Color(0xFFfa6e0f),
                                 radius: 20.0,
                                 child: Icon(Icons.person)),
                           ),
@@ -83,7 +92,7 @@ class HomeWidget extends StatelessWidget {
                           const Padding(
                             padding: EdgeInsets.all(8.0),
                             child: CircleAvatar(
-                                backgroundColor: Colors.blueAccent,
+                                backgroundColor: Color(0xFFfa6e0f),
                                 radius: 20.0,
                                 child: Icon(Icons.bloodtype)),
                           ),

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "213097843081",
+    "project_id": "pas-nsspuri",
+    "storage_bucket": "pas-nsspuri.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:213097843081:android:75e23e5d05d9c4825db958",
+        "android_client_info": {
+          "package_name": "com.example.prabasi_anchalika_sangha"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "213097843081-ef8ced6ujamha6pv74qmtq9kr823ggtr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.prabasi_anchalika_sangha",
+            "certificate_hash": "7b3665675cfaaf41ff29010262d1efbd88e8d1b0"
+          }
+        },
+        {
+          "client_id": "213097843081-d9ne2bp8ool2i5qoc3fnicgvtv1l2586.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBeTk3VM6akfWGr4knqHvPJloD92jtjzw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "213097843081-d9ne2bp8ool2i5qoc3fnicgvtv1l2586.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

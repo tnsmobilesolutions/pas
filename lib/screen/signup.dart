@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:prabasi_anchalika_sangha/screen/homescreen.dart';
@@ -8,8 +9,11 @@ class SignUpWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: const Color(0xFFf6f6f6),
         appBar: AppBar(
+          backgroundColor: const Color(0xFFf6f6f6),
           title: const Text('Sign Up'),
+          elevation: 0,
         ),
         body: SingleChildScrollView(
             child: Padding(
@@ -45,7 +49,7 @@ class SignUpWidget extends StatelessWidget {
                       decoration: const InputDecoration(
                           icon: Icon(Icons.work), labelText: "Profession")),
                   const SizedBox(height: 30),
-                  ElevatedButton(
+                  CupertinoButton(
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -53,7 +57,9 @@ class SignUpWidget extends StatelessWidget {
                             builder: (context) => const HomeWidget()),
                       );
                     },
-                    child: const Text('Submit'),
+                    child: Row(
+                      children: const [Text('Next'), Icon(Icons.forward)],
+                    ),
                   )
                 ]))));
   }

@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 
 import 'package:image_picker/image_picker.dart';
+import 'package:prabasi_anchalika_sangha/API/userAPI.dart';
 import 'package:prabasi_anchalika_sangha/model/CompleteProfileModel.dart';
+import 'package:prabasi_anchalika_sangha/model/userModel.dart';
 import 'package:prabasi_anchalika_sangha/screen/homescreen.dart';
 
 class CompleteProfile extends StatefulWidget {
@@ -61,73 +63,86 @@ class _CompleteProfileState extends State<CompleteProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFf6f6f6),
       appBar: AppBar(
-        title: Text('Complete Your Profile'),
+        backgroundColor: const Color(0xFFf6f6f6),
+        elevation: 0,
+        title: Text(
+          'Complete Your Profile',
+          style: TextStyle(color: Colors.black),
+        ),
         centerTitle: false,
         automaticallyImplyLeading: false,
       ),
-      body: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CupertinoButton(
-                onPressed: () {
-                  showPhotoOptions();
-                },
-                padding: EdgeInsets.all(0),
-                child: CircleAvatar(
-                  radius: 60,
-                  backgroundImage:
-                      (imageFile != null) ? FileImage(imageFile!) : null,
-                  child: (imageFile == null)
-                      ? Icon(
-                          Icons.person,
-                          size: 60,
-                        )
-                      : null,
+      body: SingleChildScrollView(
+        child: Container(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CupertinoButton(
+                  onPressed: () {
+                    showPhotoOptions();
+                  },
+                  padding: EdgeInsets.all(0),
+                  child: CircleAvatar(
+                    backgroundColor: Color(0xFFfa6e0f),
+                    radius: 60,
+                    backgroundImage:
+                        (imageFile != null) ? FileImage(imageFile!) : null,
+                    child: (imageFile == null)
+                        ? Icon(
+                            Icons.person,
+                            size: 60,
+                          )
+                        : null,
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                  controller: bloodgroupController,
-                  decoration: const InputDecoration(
-                      icon: Icon(Icons.water_rounded),
-                      labelText: "Blood Group")),
-              TextFormField(
-                  controller: sanghaController,
-                  decoration: const InputDecoration(
-                      icon: Icon(Icons.home), labelText: "Sangha")),
-              TextFormField(
-                  controller: cityController,
-                  decoration: const InputDecoration(
-                      icon: Icon(Icons.location_city_rounded),
-                      labelText: "City")),
-              TextFormField(
-                  controller: professionController,
-                  decoration: const InputDecoration(
-                      icon: Icon(Icons.work), labelText: "Profession")),
-              const SizedBox(height: 30),
-              ElevatedButton(
-                onPressed: () async {
-                  final uid = FirebaseAuth.instance.currentUser?.uid;
-                  CompleteProfileModel addOnData = CompleteProfileModel(
-                      bloodgroup: bloodgroupController.text.trim(),
-                      city: cityController.text.trim(),
-                      proffesion: professionController.text.trim(),
-                      sangha: sanghaController.text.trim(),
-                      uid: uid);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const HomeWidget()),
-                  );
-                },
-                child: const Text('Submit'),
-              )
-            ],
+                SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                    controller: bloodgroupController,
+                    decoration: const InputDecoration(
+                        icon: Icon(Icons.water_rounded),
+                        labelText: "Blood Group")),
+                TextFormField(
+                    controller: sanghaController,
+                    decoration: const InputDecoration(
+                        icon: Icon(Icons.home), labelText: "Sangha")),
+                TextFormField(
+                    controller: cityController,
+                    decoration: const InputDecoration(
+                        icon: Icon(Icons.location_city_rounded),
+                        labelText: "City")),
+                TextFormField(
+                    controller: professionController,
+                    decoration: const InputDecoration(
+                        icon: Icon(Icons.work), labelText: "Profession")),
+                const SizedBox(height: 30),
+                CupertinoButton(
+                  color: Color(0xFFfa6e0f),
+                  onPressed: () async {
+                    final uid = FirebaseAuth.instance.currentUser?.uid;
+                    userModel addOnData = userModel(
+                        bloodgroup: bloodgroupController.text.trim(),
+                        city: cityController.text.trim(),
+                        proffesion: professionController.text.trim(),
+                        sangha: sanghaController.text.trim(),
+                        uid: uid);
+                    UserAPI().addcompleteProfileData(addOnData);
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HomeWidget()),
+                    );
+                  },
+                  child: const Text('Submit'),
+                )
+              ],
+            ),
           ),
         ),
       ),

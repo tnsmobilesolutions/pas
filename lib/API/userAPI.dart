@@ -1,28 +1,27 @@
-import 'package:authentication/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:prabasi_anchalika_sangha/model/CompleteProfileModel.dart';
-import 'package:prabasi_anchalika_sangha/model/CompleteProfileModel.dart';
+import 'package:prabasi_anchalika_sangha/model/userModel.dart';
 
 class UserAPI {
   FirebaseAuth auth = FirebaseAuth.instance;
   CollectionReference usercollection =
       FirebaseFirestore.instance.collection('users');
 //signUp
-  emailSignUp(userModel currentUser, String password) async {
+  emailSignUp(userModel currentUser, String? password) async {
     try {
       final userCredential = await auth
           .createUserWithEmailAndPassword(
-              email: currentUser.email.toString(), password: password)
+              email: currentUser.email.toString(),
+              password: password.toString())
           .then(
         (value) {
           FirebaseFirestore.instance
               .collection('users')
               .doc(currentUser.userId)
               .set(
-                userModel().toMap(),
-                // CompleteProfileModel().toMap(),
+                currentUser.toMap(),
               );
           return value;
         },
@@ -33,7 +32,7 @@ class UserAPI {
         // return null;
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided for that user.');
-        return null;
+        return const CircularProgressIndicator();
       }
     } on Exception catch (e) {
       print(e.toString());
@@ -80,9 +79,15 @@ class UserAPI {
   }
 
   // add data
-  addcompleteProfileData(CompleteProfileModel addOnData) async {
-    final uid = auth.currentUser?.uid;
-    usercollection.add(CompleteProfileModel().toMap());
+  addcompleteProfileData(userModel addOnData) async {
+    final email = FirebaseAuth.instance.currentUser?.email;
+    final user = usercollection.where("email", isEqualTo: email).get().then(
+      (querySnapshot) {
+        final userData = querySnapshot.docs.first.id;
+        usercollection.doc(userData).update(addOnData.toMap());
+        // _loggedInUser = user;
+      },
+    );
   }
 
   // Fetch Profile Data
