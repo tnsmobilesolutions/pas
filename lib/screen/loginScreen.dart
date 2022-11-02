@@ -34,7 +34,7 @@ class LoginPage extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const HomeWidget(),
+                    builder: (context) => HomeWidget(),
                   ));
             },
             image: const AssetImage('assets/images/loginImage.png'),
