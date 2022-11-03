@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:prabasi_anchalika_sangha/model/CompleteProfileModel.dart';
+import 'package:prabasi_anchalika_sangha/model/fetchDataModel.dart';
 import 'package:prabasi_anchalika_sangha/model/userModel.dart';
 
 class UserAPI {
@@ -113,7 +114,27 @@ class UserAPI {
     );
   }
 
-  //
+//fetch Data from Firebase
+  Future<List<EventModel>> fetchAllevents() async {
+    final CollectionReference eventCollection =
+        FirebaseFirestore.instance.collection('events');
+    final value = await eventCollection.get().then(
+      (querysnapshot) {
+        //print('********${querysnapshot.docs.length}');
+        List<EventModel> lstofEvent = [];
+        for (var element in querysnapshot.docs) {
+          final events = element.data() as Map<String, dynamic>;
+          final eventModell = EventModel.fromMap(events);
+          //print('Medicine model in API $medicineModel');
+          lstofEvent.add(eventModell);
+        }
+        return lstofEvent;
+      },
+    );
+    return value;
+  }
+
+  //LogOut
   logout() async {
     try {
       await auth.signOut();

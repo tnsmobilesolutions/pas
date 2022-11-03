@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prabasi_anchalika_sangha/API/userAPI.dart';
+import 'package:prabasi_anchalika_sangha/model/fetchDataModel.dart';
 import 'package:prabasi_anchalika_sangha/model/userModel.dart';
 import 'package:prabasi_anchalika_sangha/screen/loginscreen.dart';
 import 'package:prabasi_anchalika_sangha/screen/searchuser.dart';
@@ -21,6 +22,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   String? _selectedSearchType;
 
   userModel? selectUser;
+  static List<EventModel> events = [];
 
   List<String> searchBy = [
     'Name',
@@ -30,8 +32,16 @@ class _HomeWidgetState extends State<HomeWidget> {
     'Proffession'
   ];
 
+  eventlist() async {
+    final ev = await UserAPI().fetchAllevents();
+    setState(() {
+      events = ev;
+    });
+  }
+
   @override
   void initState() {
+    eventlist();
     super.initState();
     type = APIType.fetchAll;
   }
@@ -89,72 +99,33 @@ class _HomeWidgetState extends State<HomeWidget> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: ListView.builder(
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
-                  child: Card(
-                      elevation: 10,
-                      shadowColor: const Color(0xFFfa6e0f),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: CircleAvatar(
-                                backgroundColor: Color(0xFFfa6e0f),
-                                radius: 20.0,
-                                child: Icon(Icons.person)),
-                          ),
-                          Expanded(
-                            child: ListTile(
-                              tileColor: const Color(0xFFfefefe),
-                              //visualDensity: VisualDensity(vertical: 4),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
-                              title: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  SizedBox(height: 10),
-                                  Text('Name'),
-                                ],
-                              ),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: const [
-                                  SizedBox(height: 10),
-                                  Text('Proffession'),
-                                  Text('Sangha'),
-                                  Text('Email'),
-                                  Text('City'),
-                                  SizedBox(height: 10),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: CircleAvatar(
-                                backgroundColor: Color(0xFFfa6e0f),
-                                radius: 20.0,
-                                child: Icon(Icons.bloodtype)),
-                          ),
-                          const VerticalDivider(
-                            color: Colors.white30,
-                          ),
-                        ],
-                      )),
-                ),
-              );
-            },
+          child: Expanded(
+            child: ListView.builder(
+              itemCount: events.length,
+              itemBuilder: (context, index) {
+                return Expanded(
+                  child: ListTile(
+                    tileColor: const Color(0xFFfefefe),
+                    //visualDensity: VisualDensity(vertical: 4),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(height: 10),
+                        Text(events[index].eventName.toString()),
+                        Text(events[index].date.toString()),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ),
     );
+    // return CircularProgressIndicator();
   }
 }
