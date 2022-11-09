@@ -104,19 +104,22 @@ class _HomeWidgetState extends State<HomeWidget> {
               itemCount: events.length,
               itemBuilder: (context, index) {
                 return Expanded(
-                  child: ListTile(
-                    tileColor: const Color(0xFFfefefe),
-                    //visualDensity: VisualDensity(vertical: 4),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: ListTile(
+                      tileColor: Color.fromARGB(255, 242, 227, 217),
+                      //visualDensity: VisualDensity(vertical: 4),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
 
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(height: 10),
-                        Text(events[index].eventName.toString()),
-                        Text(events[index].date.toString()),
-                      ],
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(events[index].eventName.toString()),
+                          Spacer(),
+                          Text(events[index].date.toString()),
+                        ],
+                      ),
                     ),
                   ),
                 );
