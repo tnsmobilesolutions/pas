@@ -1,8 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:prabasi_anchalika_sangha/API/userAPI.dart';
 import 'package:prabasi_anchalika_sangha/model/fetchDataModel.dart';
+import 'package:prabasi_anchalika_sangha/model/promotionsModel.dart';
 import 'package:prabasi_anchalika_sangha/model/userModel.dart';
 import 'package:prabasi_anchalika_sangha/screen/loginscreen.dart';
+import 'package:prabasi_anchalika_sangha/screen/myProfile.dart';
 import 'package:prabasi_anchalika_sangha/screen/searchuser.dart';
 
 enum APIType { search, fetchAll }
@@ -23,6 +26,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   userModel? selectUser;
   static List<EventModel> events = [];
+  static List<PromotionsModel> titles = [];
 
   List<String> searchBy = [
     'Name',
@@ -32,16 +36,18 @@ class _HomeWidgetState extends State<HomeWidget> {
     'Proffession'
   ];
 
-  eventlist() async {
+  fetchlist() async {
     final ev = await UserAPI().fetchAllevents();
+    final promo = await UserAPI().fetchAllPromotions();
     setState(() {
       events = ev;
+      titles = promo;
     });
   }
 
   @override
   void initState() {
-    eventlist();
+    fetchlist();
     super.initState();
     type = APIType.fetchAll;
   }
@@ -59,6 +65,19 @@ class _HomeWidgetState extends State<HomeWidget> {
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.person,
+            color: Color(0xFFfa6e0f),
+          ),
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(
+              builder: (context) {
+                return MyProfile();
+              },
+            ));
+          },
+        ),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.search, color: Color(0xFFfa6e0f)),
@@ -88,33 +107,58 @@ class _HomeWidgetState extends State<HomeWidget> {
         ],
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Expanded(
-            child: ListView.builder(
-              itemCount: events.length,
-              itemBuilder: (context, index) {
-                return Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: ListTile(
-                      tileColor: Color.fromARGB(255, 242, 227, 217),
-                      //visualDensity: VisualDensity(vertical: 4),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(events[index].eventName.toString()),
-                          Spacer(),
-                          Text(events[index].date.toString()),
-                        ],
-                      ),
-                    ),
+        child: Container(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Divider(thickness: 2, color: Color(0xFFfa6e0f)),
+                Text('Promotions'),
+                Divider(thickness: 2, color: Color(0xFFfa6e0f)),
+                Flexible(
+                  child: ListView.builder(
+                    itemCount: titles.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: CupertinoButton(
+                              color: Color(0xFFfa6e0f),
+                              child: Text(titles[index].title.toString()),
+                              onPressed: (() {})));
+                      ;
+                    },
                   ),
-                );
-              },
+                ),
+                Divider(thickness: 2, color: Color(0xFFfa6e0f)),
+                Text('Events'),
+                Divider(thickness: 2, color: Color(0xFFfa6e0f)),
+                Flexible(
+                  flex: 1,
+                  child: ListView.builder(
+                    itemCount: events.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: ListTile(
+                          tileColor: Color.fromARGB(255, 242, 227, 217),
+                          //visualDensity: VisualDensity(vertical: 4),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(events[index].eventName.toString()),
+                              Spacer(),
+                              Text(events[index].date.toString()),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
         ),

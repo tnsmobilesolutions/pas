@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:prabasi_anchalika_sangha/model/CompleteProfileModel.dart';
 import 'package:prabasi_anchalika_sangha/model/fetchDataModel.dart';
+import 'package:prabasi_anchalika_sangha/model/promotionsModel.dart';
 import 'package:prabasi_anchalika_sangha/model/userModel.dart';
 
 class UserAPI {
@@ -91,9 +92,23 @@ class UserAPI {
     );
   }
 
+  //currentUser
+  Future<userModel> currentUser() async {
+    final uid = await FirebaseAuth.instance.currentUser?.uid;
+    CollectionReference userCollection =
+        FirebaseFirestore.instance.collection('users');
+    final user =
+        userCollection.where('uid', isEqualTo: uid).get().then((querySnapshot) {
+      final userData = querySnapshot.docs.first.data() as Map<String, dynamic>;
+      final userDetails = userModel.fromMap(userData);
+      return userDetails;
+    });
+    return user;
+  }
+
   // Fetch Profile Data
   Future<List<userModel>?> fetchprofile() {
-    final uid = FirebaseAuth.instance.currentUser?.uid;
+    // final uid = FirebaseAuth.instance.currentUser?.uid;
 
     CollectionReference userCollection =
         FirebaseFirestore.instance.collection('users');
@@ -129,6 +144,26 @@ class UserAPI {
           lstofEvent.add(eventModell);
         }
         return lstofEvent;
+      },
+    );
+    return value;
+  }
+
+  //fetch title
+  Future<List<PromotionsModel>> fetchAllPromotions() async {
+    final CollectionReference promotionsCollection =
+        FirebaseFirestore.instance.collection('promotions');
+    final value = await promotionsCollection.get().then(
+      (querysnapshot) {
+        //print('********${querysnapshot.docs.length}');
+        List<PromotionsModel> lstofTitle = [];
+        for (var element in querysnapshot.docs) {
+          final promotions = element.data() as Map<String, dynamic>;
+          final promotionsModelData = PromotionsModel.fromMap(promotions);
+          //print('Medicine model in API $medicineModel');
+          lstofTitle.add(promotionsModelData);
+        }
+        return lstofTitle;
       },
     );
     return value;
