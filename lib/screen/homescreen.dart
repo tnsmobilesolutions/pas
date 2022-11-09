@@ -59,15 +59,6 @@ class _HomeWidgetState extends State<HomeWidget> {
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Color(0xFFfa6e0f),
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.search, color: Color(0xFFfa6e0f)),
