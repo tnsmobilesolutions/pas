@@ -5,6 +5,7 @@ import 'package:prabasi_anchalika_sangha/dev/firebase_options.dart';
 import 'package:prabasi_anchalika_sangha/screen/homescreen.dart';
 
 import 'package:prabasi_anchalika_sangha/screen/loginscreen.dart';
+import 'package:prabasi_anchalika_sangha/screen/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,9 +24,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Login UI',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: CurrentTheme.customTheme,
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {

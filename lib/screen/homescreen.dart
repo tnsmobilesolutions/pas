@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:prabasi_anchalika_sangha/API/lunchURLAPI.dart';
 import 'package:prabasi_anchalika_sangha/API/userAPI.dart';
 import 'package:prabasi_anchalika_sangha/model/fetchDataModel.dart';
 import 'package:prabasi_anchalika_sangha/model/promotionsModel.dart';
@@ -7,6 +8,7 @@ import 'package:prabasi_anchalika_sangha/model/userModel.dart';
 import 'package:prabasi_anchalika_sangha/screen/loginscreen.dart';
 import 'package:prabasi_anchalika_sangha/screen/myProfile.dart';
 import 'package:prabasi_anchalika_sangha/screen/searchuser.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 enum APIType { search, fetchAll }
 
@@ -27,6 +29,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   userModel? selectUser;
   static List<EventModel> events = [];
   static List<PromotionsModel> titles = [];
+  userModel? curUser;
 
   List<String> searchBy = [
     'Name',
@@ -39,9 +42,11 @@ class _HomeWidgetState extends State<HomeWidget> {
   fetchlist() async {
     final ev = await UserAPI().fetchAllevents();
     final promo = await UserAPI().fetchAllPromotions();
+    final user = await UserAPI().currentUser();
     setState(() {
       events = ev;
       titles = promo;
+      curUser = user;
     });
   }
 
@@ -57,27 +62,15 @@ class _HomeWidgetState extends State<HomeWidget> {
     return Scaffold(
       backgroundColor: const Color(0xFFf6f6f6),
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: const Color(0xFFf6f6f6),
-        automaticallyImplyLeading: false,
+        // elevation: 0,
+        // backgroundColor: const Color(0xFFf6f6f6),
+        // automaticallyImplyLeading: false,
         title: const Text(
           'Home',
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.person,
-            color: Color(0xFFfa6e0f),
-          ),
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(
-              builder: (context) {
-                return MyProfile();
-              },
-            ));
-          },
-        ),
+
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.search, color: Color(0xFFfa6e0f)),
@@ -88,59 +81,120 @@ class _HomeWidgetState extends State<HomeWidget> {
                       builder: (context) => const SerachUserWidget()));
             }),
           ),
-          IconButton(
-            onPressed: () {
-              UserAPI().logout();
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) {
-                  return LoginPage(
-                    title: 'Welcome',
-                  );
-                },
-              ));
-            },
-            icon: Icon(
-              Icons.logout_rounded,
-              color: Color(0xFFfa6e0f),
-            ),
-          )
         ],
+      ),
+      drawer: Drawer(
+        child: SafeArea(
+          child: ListView(
+            // Important: Remove any padding from the ListView.
+            padding: EdgeInsets.zero,
+            children: [
+              DrawerHeader(
+                curve: Curves.bounceIn,
+                decoration: const BoxDecoration(
+                  color: Color(0xFFf6f6f6),
+                ),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Welcome',
+                        style: TextStyle(
+                            fontSize: 40, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        '${curUser?.name}',
+                        style: const TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              ListTile(
+                leading: const Icon(
+                  Icons.person,
+                ),
+                title: const Text('My Profile'),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return MyProfile();
+                    },
+                  ));
+                },
+              ),
+              ListTile(
+                leading: const Icon(
+                  Icons.search,
+                ),
+                title: const Text('Search'),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SerachUserWidget()));
+                },
+              ),
+              ListTile(
+                leading: const Icon(
+                  Icons.logout_rounded,
+                ),
+                title: const Text('Log out'),
+                onTap: () {
+                  UserAPI().logout();
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return LoginPage(
+                        title: 'Welcome',
+                      );
+                    },
+                  ));
+                },
+              ),
+            ],
+          ),
+        ),
       ),
       body: SafeArea(
         child: Container(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Divider(thickness: 2, color: Color(0xFFfa6e0f)),
-                Text('Promotions'),
-                Divider(thickness: 2, color: Color(0xFFfa6e0f)),
-                Flexible(
+                SizedBox(
+                  height: 60.0 * (titles.length),
                   child: ListView.builder(
                     itemCount: titles.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: CupertinoButton(
-                              color: Color(0xFFfa6e0f),
-                              child: Text(titles[index].title.toString()),
-                              onPressed: (() {})));
-                      ;
+                        padding: const EdgeInsets.all(5.0),
+                        child: CupertinoButton(
+                          color: const Color(0xFFfa6e0f),
+                          child: Text(titles[index].title.toString()),
+                          onPressed: (() async {
+                            final _url = await titles[index].weburl.toString();
+                            Urllunch().launchURLApp(_url);
+                          }),
+                        ),
+                      );
                     },
                   ),
                 ),
-                Divider(thickness: 2, color: Color(0xFFfa6e0f)),
-                Text('Events'),
-                Divider(thickness: 2, color: Color(0xFFfa6e0f)),
+                const Text('Events',
+                    style:
+                        TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
                 Flexible(
-                  flex: 1,
                   child: ListView.builder(
                     itemCount: events.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.all(5.0),
                         child: ListTile(
-                          tileColor: Color.fromARGB(255, 242, 227, 217),
+                          tileColor: Colors.white,
                           //visualDensity: VisualDensity(vertical: 4),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
@@ -149,7 +203,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(events[index].eventName.toString()),
-                              Spacer(),
+                              const Spacer(),
                               Text(events[index].date.toString()),
                             ],
                           ),

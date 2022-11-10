@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prabasi_anchalika_sangha/API/userAPI.dart';
 import 'package:prabasi_anchalika_sangha/model/userModel.dart';
+import 'package:prabasi_anchalika_sangha/screen/editProfile.dart';
 
 class MyProfile extends StatefulWidget {
   MyProfile({Key? key}) : super(key: key);
@@ -29,29 +30,38 @@ class _MyProfileState extends State<MyProfile> {
     return Scaffold(
       appBar: AppBar(
         title: Text('My Profile'),
-        actions: [IconButton(onPressed: (() {}), icon: Icon(Icons.edit))],
+        actions: [
+          IconButton(
+              onPressed: (() {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return EditProfile(currentUser: currentUser);
+                  },
+                ));
+              }),
+              icon: Icon(Icons.edit))
+        ],
       ),
       body: SafeArea(
           child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Name : ${currentUser?.name}'),
-                  Text('email : ${currentUser?.email}'),
-                  Text('phoneNumber : ${currentUser?.phoneNumber}'),
-                  Text('bloodgroup : ${currentUser?.bloodgroup}'),
-                  Text('sangha : ${currentUser?.sangha}'),
-                  Text('city : ${currentUser?.city}'),
-                  Text('proffesion : ${currentUser?.proffesion}'),
-                  Text('userId : ${currentUser?.userId}'),
-                ],
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            // mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Name : ${currentUser?.name}'),
+              SizedBox(
+                height: 10,
               ),
-            ),
+              Text('email : ${currentUser?.email}'),
+              Text('phoneNumber : ${currentUser?.phoneNumber}'),
+              Text('bloodgroup : ${currentUser?.bloodgroup}'),
+              Text('sangha : ${currentUser?.sangha}'),
+              Text('city : ${currentUser?.city}'),
+              Text('proffesion : ${currentUser?.proffesion}'),
+              Text('userId : ${currentUser?.userId}'),
+            ],
           ),
         ),
       )),

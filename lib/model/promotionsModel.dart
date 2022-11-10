@@ -3,22 +3,22 @@ import 'dart:convert';
 class PromotionsModel {
   int? id;
   String? title;
-  String? webURL;
+  String? weburl;
   PromotionsModel({
     this.id,
     this.title,
-    this.webURL,
+    this.weburl,
   });
 
   PromotionsModel copyWith({
     int? id,
     String? title,
-    String? webURL,
+    String? weburl,
   }) {
     return PromotionsModel(
       id: id ?? this.id,
       title: title ?? this.title,
-      webURL: webURL ?? this.webURL,
+      weburl: weburl ?? this.weburl,
     );
   }
 
@@ -31,8 +31,8 @@ class PromotionsModel {
     if (title != null) {
       result.addAll({'title': title});
     }
-    if (webURL != null) {
-      result.addAll({'webURL': webURL});
+    if (weburl != null) {
+      result.addAll({'weburl': weburl});
     }
 
     return result;
@@ -42,7 +42,7 @@ class PromotionsModel {
     return PromotionsModel(
       id: map['id']?.toInt(),
       title: map['title'],
-      webURL: map['webURL'],
+      weburl: map['weburl'],
     );
   }
 
@@ -53,7 +53,7 @@ class PromotionsModel {
 
   @override
   String toString() =>
-      'PromotionsModel(id: $id, title: $title, webURL: $webURL)';
+      'PromotionsModel(id: $id, title: $title, weburl: $weburl)';
 
   @override
   bool operator ==(Object other) {
@@ -62,9 +62,9 @@ class PromotionsModel {
     return other is PromotionsModel &&
         other.id == id &&
         other.title == title &&
-        other.webURL == webURL;
+        other.weburl == weburl;
   }
 
   @override
-  int get hashCode => id.hashCode ^ title.hashCode ^ webURL.hashCode;
+  int get hashCode => id.hashCode ^ title.hashCode ^ weburl.hashCode;
 }

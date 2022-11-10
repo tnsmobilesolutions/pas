@@ -106,6 +106,15 @@ class UserAPI {
     return user;
   }
 
+  //Edit Curent User
+  editPprofile(userModel updatedUser) async {
+    final curentUser = await currentUser();
+    final userCollection = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(curentUser.userId)
+        .update(updatedUser.toMap());
+  }
+
   // Fetch Profile Data
   Future<List<userModel>?> fetchprofile() {
     // final uid = FirebaseAuth.instance.currentUser?.uid;
