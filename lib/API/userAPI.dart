@@ -94,11 +94,13 @@ class UserAPI {
 
   //currentUser
   Future<userModel> currentUser() async {
-    final uid = await FirebaseAuth.instance.currentUser?.uid;
+    final email = await FirebaseAuth.instance.currentUser?.email;
     CollectionReference userCollection =
         FirebaseFirestore.instance.collection('users');
-    final user =
-        userCollection.where('uid', isEqualTo: uid).get().then((querySnapshot) {
+    final user = userCollection
+        .where('email', isEqualTo: email)
+        .get()
+        .then((querySnapshot) {
       final userData = querySnapshot.docs.first.data() as Map<String, dynamic>;
       final userDetails = userModel.fromMap(userData);
       return userDetails;

@@ -101,7 +101,8 @@ class SerachResultWidget extends StatelessWidget {
                             children: [
                               SizedBox(width: 110),
                               CircleAvatar(
-                                  backgroundColor: Colors.white30, radius: 20.0),
+                                  backgroundColor: Colors.white30,
+                                  radius: 20.0),
                             ],
                           ),
                         ),
@@ -142,8 +143,7 @@ class SerachResultWidget extends StatelessWidget {
                                   ],
                                 ),
                               ],
-                            )
-                          ),
+                            )),
                         VerticalDivider(
                           color: Colors.white30,
                         ),
@@ -164,12 +164,12 @@ class SerachResultWidget extends StatelessWidget {
                               Text(
                                 '+ve',
                                 style: TextStyle(color: Colors.white54),
-                              ), ],
+                              ),
+                            ],
                           ),
                         ),
                       ],
-                    )
-                  ),
+                    )),
               ),
             );
           },

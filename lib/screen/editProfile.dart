@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:prabasi_anchalika_sangha/API/userAPI.dart';
+import 'package:prabasi_anchalika_sangha/bloc/profile/profile_bloc.dart';
 import 'package:prabasi_anchalika_sangha/model/userModel.dart';
 
 class EditProfile extends StatefulWidget {
@@ -14,7 +17,7 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   final nameController = TextEditingController();
-  final emailController = TextEditingController();
+  // final emailController = TextEditingController();
   final mobileController = TextEditingController();
 
   final TextEditingController bloodgroupController = TextEditingController();
@@ -26,7 +29,7 @@ class _EditProfileState extends State<EditProfile> {
   @override
   void initState() {
     nameController.text = widget.currentUser?.name ?? '';
-    emailController.text = widget.currentUser?.email ?? '';
+    // emailController.text = widget.currentUser?.email ?? '';
     mobileController.text = widget.currentUser?.phoneNumber ?? '';
     bloodgroupController.text = widget.currentUser?.bloodgroup ?? '';
     cityController.text = widget.currentUser?.city ?? '';
@@ -70,29 +73,29 @@ class _EditProfileState extends State<EditProfile> {
               // focusColor: Colors.grey),
             ),
             const SizedBox(height: 10),
-            TextFormField(
-              keyboardType: TextInputType.emailAddress,
-              controller: emailController,
-              onSaved: (newValue) => emailController,
-              validator: (value) {
-                // Returns true if email address is in use.
+            // TextFormField(
+            //   keyboardType: TextInputType.emailAddress,
+            //   controller: emailController,
+            //   onSaved: (newValue) => emailController,
+            //   validator: (value) {
+            //     // Returns true if email address is in use.
 
-                if (value == null || value.isEmpty) {
-                  return ("Please enter Your Email");
-                }
-                // reg expression for email validation
-                else if (!(RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z]+\.[a-zA-Z]+"))
-                    .hasMatch(value)) {
-                  return ("Please enter a valid email");
-                }
-                //else if () {}
-                return null;
-              },
-              decoration: const InputDecoration(
-                  icon: Icon(Icons.email),
-                  // hintText: 'Enter Your Email',
-                  labelText: 'Email'),
-            ),
+            //     if (value == null || value.isEmpty) {
+            //       return ("Please enter Your Email");
+            //     }
+            //     // reg expression for email validation
+            //     else if (!(RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z]+\.[a-zA-Z]+"))
+            //         .hasMatch(value)) {
+            //       return ("Please enter a valid email");
+            //     }
+            //     //else if () {}
+            //     return null;
+            //   },
+            //   decoration: const InputDecoration(
+            //       icon: Icon(Icons.email),
+            //       // hintText: 'Enter Your Email',
+            //       labelText: 'Email'),
+            // ),
             const SizedBox(height: 10),
             TextFormField(
               keyboardType: TextInputType.phone,
@@ -138,20 +141,31 @@ class _EditProfileState extends State<EditProfile> {
                   icon: Icon(Icons.work), labelText: "Profession"),
             ),
             const SizedBox(height: 20),
-            CupertinoButton(
-              color: const Color(0xFFfa6e0f),
-              onPressed: () async {
-                userModel updatedUser = userModel(
-                    name: nameController.text,
-                    email: emailController.text,
-                    phoneNumber: mobileController.text,
-                    bloodgroup: bloodgroupController.text,
-                    sangha: sanghaController.text,
-                    city: cityController.text,
-                    proffesion: professionController.text);
-                await UserAPI().editPprofile(updatedUser);
+            BlocConsumer<ProfileBloc, ProfileState>(
+              builder: (context, state) {
+                return CupertinoButton(
+                  color: const Color(0xFFfa6e0f),
+                  onPressed: () async {
+                    final uid = FirebaseAuth.instance.currentUser?.uid;
+                    userModel updatedUser = userModel(
+                        name: nameController.text,
+                        uid: uid,
+                        phoneNumber: mobileController.text,
+                        bloodgroup: bloodgroupController.text,
+                        sangha: sanghaController.text,
+                        city: cityController.text,
+                        proffesion: professionController.text);
+                    await UserAPI().editPprofile(updatedUser);
+                    context.read<ProfileBloc>().add(MyprofileEvent());
+                  },
+                  child: const Text('Submit'),
+                );
               },
-              child: const Text('Submit'),
+              listener: (context, state) {
+                if (state is MyprofileState) {
+                  Navigator.pop(context);
+                }
+              },
             )
           ]),
         ),

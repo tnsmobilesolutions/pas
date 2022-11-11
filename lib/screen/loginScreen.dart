@@ -37,7 +37,7 @@ class LoginPage extends StatelessWidget {
                     builder: (context) => HomeWidget(),
                   ));
             },
-            image: const AssetImage('assets/images/loginImage.png'),
+            image: const AssetImage('assets/images/paslogo.png'),
             isImageVisible: false,
             onSignUpPressed: (email, password, name, userId, mobileNo) async {
               userModel newUser = userModel(

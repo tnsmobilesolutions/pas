@@ -139,7 +139,16 @@ class _CompleteProfileState extends State<CompleteProfile> {
                     );
                   },
                   child: const Text('Submit'),
-                )
+                ),
+                CupertinoButton(
+                    child: Text('Skip'),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomeWidget(),
+                          ));
+                    })
               ],
             ),
           ),

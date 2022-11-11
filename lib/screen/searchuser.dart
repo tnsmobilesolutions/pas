@@ -79,7 +79,7 @@ class _SerachUserWidgetState extends State<SerachUserWidget> {
                   child: TextFormField(
                     onChanged: (value) {
                       setState(() {
-                        searchItem = value.toLowerCase();
+                        searchItem = value;
                       });
                     },
                     decoration: InputDecoration(
@@ -115,7 +115,16 @@ class _SerachUserWidgetState extends State<SerachUserWidget> {
                   title: Text(searchResult != null
                       ? searchResult![index].name.toString()
                       : ''),
-                  subtitle: Text(searchResult![index].sangha.toString()),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(searchResult![index].sangha.toString()),
+                      Text(searchResult![index].bloodgroup.toString()),
+                      Text(searchResult![index].phoneNumber.toString()),
+                      Text(searchResult![index].email.toString()),
+                      Text(searchResult![index].proffesion.toString()),
+                    ],
+                  ),
                 );
               },
             ),

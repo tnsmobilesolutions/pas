@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CurrentTheme {
+  final kprofilrTextstyle =
+      TextStyle(fontSize: 20, fontWeight: FontWeight.normal);
   static ThemeData customTheme = ThemeData(
       primarySwatch: Colors.blue,
       brightness: Brightness.light,

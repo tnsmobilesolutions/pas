@@ -7,6 +7,7 @@ import 'package:prabasi_anchalika_sangha/model/promotionsModel.dart';
 import 'package:prabasi_anchalika_sangha/model/userModel.dart';
 import 'package:prabasi_anchalika_sangha/screen/loginscreen.dart';
 import 'package:prabasi_anchalika_sangha/screen/myProfile.dart';
+import 'package:prabasi_anchalika_sangha/screen/navigationDrawer.dart';
 import 'package:prabasi_anchalika_sangha/screen/searchuser.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -83,80 +84,7 @@ class _HomeWidgetState extends State<HomeWidget> {
           ),
         ],
       ),
-      drawer: Drawer(
-        child: SafeArea(
-          child: ListView(
-            // Important: Remove any padding from the ListView.
-            padding: EdgeInsets.zero,
-            children: [
-              DrawerHeader(
-                curve: Curves.bounceIn,
-                decoration: const BoxDecoration(
-                  color: Color(0xFFf6f6f6),
-                ),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Welcome',
-                        style: TextStyle(
-                            fontSize: 40, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        '${curUser?.name}',
-                        style: const TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.bold),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              ListTile(
-                leading: const Icon(
-                  Icons.person,
-                ),
-                title: const Text('My Profile'),
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (context) {
-                      return MyProfile();
-                    },
-                  ));
-                },
-              ),
-              ListTile(
-                leading: const Icon(
-                  Icons.search,
-                ),
-                title: const Text('Search'),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SerachUserWidget()));
-                },
-              ),
-              ListTile(
-                leading: const Icon(
-                  Icons.logout_rounded,
-                ),
-                title: const Text('Log out'),
-                onTap: () {
-                  UserAPI().logout();
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (context) {
-                      return LoginPage(
-                        title: 'Welcome',
-                      );
-                    },
-                  ));
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
+      drawer: NavDrawer(),
       body: SafeArea(
         child: Container(
           child: Padding(
