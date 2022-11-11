@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:prabasi_anchalika_sangha/model/userModel.dart';
 
 class SearchAPI {
