@@ -31,12 +31,20 @@ class LoginPage extends StatelessWidget {
               signUpButtonText: 'Next',
               phoneAuthentication: false,
               onEmailLoginPressed: (useremail, userpassword) async {
-                await UserAPI().signIn(useremail, userpassword);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomeWidget(),
-                    ));
+                final user = await UserAPI().signIn(useremail, userpassword);
+                if (user != null) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HomeWidget(),
+                      ));
+                }
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    behavior: SnackBarBehavior.floating,
+                    content: Text('Please Check your userEmail and Password'),
+                  ),
+                );
               },
               image: const AssetImage('assets/images/paslogo.png'),
               isImageVisible: true,
