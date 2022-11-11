@@ -101,34 +101,27 @@ class _SerachUserWidgetState extends State<SerachUserWidget> {
               SizedBox(
                 height: 20,
               ),
-              CupertinoButton(
-                  child: Text('Search'),
-                  onPressed: () async {
-                    // final searchResult11 = await SearchAPI()
-                    //     .searchfromFirebase(_selectedSearchType, searchItem);
-                    // setState(() {
-                    //   searchResult = searchResult11;
-                    // });
-                  }),
               const SizedBox(height: 30),
               ListView.builder(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 itemCount: searchResult?.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    title: Text(searchResult != null
-                        ? searchResult![index].name.toString()
-                        : ''),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(searchResult![index].sangha.toString()),
-                        Text(searchResult![index].bloodgroup.toString()),
-                        Text(searchResult![index].phoneNumber.toString()),
-                        Text(searchResult![index].email.toString()),
-                        Text(searchResult![index].proffesion.toString()),
-                      ],
+                  return Card(
+                    child: ListTile(
+                      title: Text(searchResult != null
+                          ? searchResult![index].name.toString()
+                          : ''),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(searchResult![index].sangha.toString()),
+                          Text(searchResult![index].bloodgroup.toString()),
+                          Text(searchResult![index].phoneNumber.toString()),
+                          Text(searchResult![index].email.toString()),
+                          Text(searchResult![index].proffesion.toString()),
+                        ],
+                      ),
                     ),
                   );
                 },

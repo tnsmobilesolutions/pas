@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       create: (context) => ProfileBloc(),
       child: MaterialApp(
-          title: 'Flutter Login UI',
+          title: 'PAS',
           debugShowCheckedModeBanner: false,
           theme: CurrentTheme.customTheme,
           home: SplashScreen()),

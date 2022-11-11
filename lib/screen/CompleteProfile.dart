@@ -3,11 +3,10 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:image_cropper/image_cropper.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:prabasi_anchalika_sangha/API/userAPI.dart';
-import 'package:prabasi_anchalika_sangha/model/CompleteProfileModel.dart';
+
 import 'package:prabasi_anchalika_sangha/model/userModel.dart';
 import 'package:prabasi_anchalika_sangha/screen/homescreen.dart';
 
@@ -34,7 +33,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text("Upload Profile Picture"),
+            title: const Text("Upload Profile Picture"),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -43,16 +42,16 @@ class _CompleteProfileState extends State<CompleteProfile> {
                     Navigator.pop(context);
                     selectImage(ImageSource.gallery);
                   },
-                  leading: Icon(Icons.photo_album),
-                  title: Text("Select from Gallery"),
+                  leading: const Icon(Icons.photo_album),
+                  title: const Text("Select from Gallery"),
                 ),
                 ListTile(
                   onTap: () {
                     Navigator.pop(context);
                     selectImage(ImageSource.camera);
                   },
-                  leading: Icon(Icons.camera_alt),
-                  title: Text("Take a photo"),
+                  leading: const Icon(Icons.camera_alt),
+                  title: const Text("Take a photo"),
                 ),
               ],
             ),
@@ -67,7 +66,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
       appBar: AppBar(
         backgroundColor: const Color(0xFFf6f6f6),
         elevation: 0,
-        title: Text(
+        title: const Text(
           'Complete Your Profile',
           style: TextStyle(color: Colors.black),
         ),
@@ -85,44 +84,49 @@ class _CompleteProfileState extends State<CompleteProfile> {
                   onPressed: () {
                     showPhotoOptions();
                   },
-                  padding: EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(0),
                   child: CircleAvatar(
-                    backgroundColor: Color(0xFFfa6e0f),
+                    backgroundColor: const Color(0xFFfa6e0f),
                     radius: 60,
                     backgroundImage:
                         (imageFile != null) ? FileImage(imageFile!) : null,
                     child: (imageFile == null)
-                        ? Icon(
+                        ? const Icon(
                             Icons.person,
                             size: 60,
                           )
                         : null,
                   ),
                 ),
-                SizedBox(
-                  height: 20,
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: bloodgroupController,
+                  decoration: const InputDecoration(
+                      icon: Icon(Icons.water_rounded),
+                      labelText: "Blood Group"),
                 ),
+                const SizedBox(height: 10),
                 TextFormField(
-                    controller: bloodgroupController,
-                    decoration: const InputDecoration(
-                        icon: Icon(Icons.water_rounded),
-                        labelText: "Blood Group")),
+                  controller: sanghaController,
+                  decoration: const InputDecoration(
+                      icon: Icon(Icons.home), labelText: "Sangha"),
+                ),
+                const SizedBox(height: 10),
                 TextFormField(
-                    controller: sanghaController,
-                    decoration: const InputDecoration(
-                        icon: Icon(Icons.home), labelText: "Sangha")),
+                  controller: cityController,
+                  decoration: const InputDecoration(
+                      icon: Icon(Icons.location_city_rounded),
+                      labelText: "City"),
+                ),
+                const SizedBox(height: 10),
                 TextFormField(
-                    controller: cityController,
-                    decoration: const InputDecoration(
-                        icon: Icon(Icons.location_city_rounded),
-                        labelText: "City")),
-                TextFormField(
-                    controller: professionController,
-                    decoration: const InputDecoration(
-                        icon: Icon(Icons.work), labelText: "Profession")),
+                  controller: professionController,
+                  decoration: const InputDecoration(
+                      icon: Icon(Icons.work), labelText: "Profession"),
+                ),
                 const SizedBox(height: 30),
                 CupertinoButton(
-                  color: Color(0xFFfa6e0f),
+                  color: const Color(0xFFfa6e0f),
                   onPressed: () async {
                     final uid = FirebaseAuth.instance.currentUser?.uid;
                     userModel addOnData = userModel(
@@ -140,18 +144,40 @@ class _CompleteProfileState extends State<CompleteProfile> {
                   },
                   child: const Text('Submit'),
                 ),
-                CupertinoButton(
-                    child: Text('Skip'),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomeWidget(),
-                          ));
-                    })
               ],
             ),
           ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            CupertinoButton(
+                child: Row(
+                  children: const [
+                    Text(
+                      'Skip',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFFfa6e0f)),
+                    ),
+                    Icon(
+                      Icons.arrow_right,
+                      color: Color(0xFFfa6e0f),
+                    )
+                  ],
+                ),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HomeWidget(),
+                      ));
+                })
+          ],
         ),
       ),
     );
