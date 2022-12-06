@@ -24,7 +24,10 @@ class LoginPage extends StatelessWidget {
           child: Container(
             child: AuthenticationWidget(
               buttonColor: const Color(0xFFfa6e0f),
-              cardElevation: 200,
+              cardElevation: 1,
+              title: 'Prabasi Anchalika Sangha',
+              loginPageTextStyle:
+                  TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               scaffoldbackGroundColor: const Color(0xFFf6f6f6),
               cardColor: const Color(0xFFfefefe),
               isSignUpVisible: true,

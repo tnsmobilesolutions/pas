@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:prabasi_anchalika_sangha/API/userAPI.dart';
+
 import 'package:prabasi_anchalika_sangha/bloc/profile/profile_bloc.dart';
-import 'package:prabasi_anchalika_sangha/model/userModel.dart';
+
 import 'package:prabasi_anchalika_sangha/screen/editProfile.dart';
 import 'package:prabasi_anchalika_sangha/screen/theme.dart';
 
@@ -55,44 +55,87 @@ class _MyProfileState extends State<MyProfile> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(
-                    'Name : ${state.currentUser.name}',
-                    style: CurrentTheme().kprofilrTextstyle,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Name', style: CurrentTheme().kProfileKeyTextStyle),
+                      Text(state.currentUser.name.toString(),
+                          style: CurrentTheme().kprofilrDatastyle),
+                      CurrentTheme().kProfileDivider
+                    ],
                   ),
                   const SizedBox(height: 10),
-                  Text(
-                    'email : ${state.currentUser.email}',
-                    style: CurrentTheme().kprofilrTextstyle,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Email',
+                        style: CurrentTheme().kProfileKeyTextStyle,
+                      ),
+                      Text(state.currentUser.email.toString(),
+                          style: CurrentTheme().kprofilrDatastyle),
+                      CurrentTheme().kProfileDivider
+                    ],
                   ),
                   const SizedBox(height: 10),
-                  Text(
-                    'phoneNumber : ${state.currentUser.phoneNumber}',
-                    style: CurrentTheme().kprofilrTextstyle,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Phone Number',
+                          style: CurrentTheme().kProfileKeyTextStyle),
+                      Text(state.currentUser.phoneNumber.toString(),
+                          style: CurrentTheme().kprofilrDatastyle),
+                      CurrentTheme().kProfileDivider
+                    ],
                   ),
                   const SizedBox(height: 10),
-                  Text(
-                    'bloodgroup : ${state.currentUser.bloodgroup}',
-                    style: CurrentTheme().kprofilrTextstyle,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Blood Group',
+                          style: CurrentTheme().kProfileKeyTextStyle),
+                      Text(state.currentUser.bloodgroup.toString(),
+                          style: CurrentTheme().kprofilrDatastyle),
+                      CurrentTheme().kProfileDivider
+                    ],
                   ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'sangha : ${state.currentUser.sangha}',
-                    style: CurrentTheme().kprofilrTextstyle,
+                  SizedBox(height: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Sangha',
+                          style: CurrentTheme().kProfileKeyTextStyle),
+                      Text(state.currentUser.sangha.toString(),
+                          style: CurrentTheme().kprofilrDatastyle),
+                      CurrentTheme().kProfileDivider
+                    ],
                   ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'city : ${state.currentUser.city}',
-                    style: CurrentTheme().kprofilrTextstyle,
+                  SizedBox(height: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'City',
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 15,
+                        ),
+                      ),
+                      Text(state.currentUser.city.toString(),
+                          style: CurrentTheme().kprofilrDatastyle),
+                      CurrentTheme().kProfileDivider
+                    ],
                   ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'proffesion : ${state.currentUser.proffesion}',
-                    style: CurrentTheme().kprofilrTextstyle,
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'userId : ${state.currentUser.userId}',
-                    style: CurrentTheme().kprofilrTextstyle,
+                  SizedBox(height: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Profession',
+                          style: CurrentTheme().kProfileKeyTextStyle),
+                      Text(state.currentUser.proffesion.toString(),
+                          style: CurrentTheme().kprofilrDatastyle),
+                      CurrentTheme().kProfileDivider
+                    ],
                   ),
                   const SizedBox(height: 10),
                 ],

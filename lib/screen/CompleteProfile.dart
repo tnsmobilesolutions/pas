@@ -18,8 +18,19 @@ class CompleteProfile extends StatefulWidget {
 }
 
 class _CompleteProfileState extends State<CompleteProfile> {
+  List<String> bloodGrouplist = <String>[
+    'A+',
+    'A-',
+    'B+',
+    'B-',
+    'O+',
+    'O-',
+    'AB+',
+    'AB-'
+  ];
+
   File? imageFile;
-  final TextEditingController bloodgroupController = TextEditingController();
+  String? dropdownValue;
   final TextEditingController cityController = TextEditingController();
   final TextEditingController professionController = TextEditingController();
   final TextEditingController sanghaController = TextEditingController();
@@ -99,17 +110,49 @@ class _CompleteProfileState extends State<CompleteProfile> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                TextFormField(
-                  controller: bloodgroupController,
-                  decoration: const InputDecoration(
-                      icon: Icon(Icons.water_rounded),
-                      labelText: "Blood Group"),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: const [
+                        Icon(Icons.bloodtype, color: Colors.green),
+                        SizedBox(width: 15),
+                        Text('Blood Group'),
+                      ],
+                    ),
+                    DropdownButton<String>(
+                      value: dropdownValue,
+                      icon: const Icon(Icons.arrow_downward,
+                          color: Color(0xFFfa6e0f)),
+                      elevation: 16,
+                      hint: const Text('Select BloodGroup'),
+                      // style: const TextStyle(color: Colors.deepPurple),
+                      underline: Container(
+                        height: 2,
+                        color: const Color(0xFFfa6e0f),
+                      ),
+                      onChanged: (String? value) {
+                        // This is called when the user selects an item.
+                        setState(() {
+                          dropdownValue = value!;
+                        });
+                      },
+                      items: bloodGrouplist
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
                   controller: sanghaController,
                   decoration: const InputDecoration(
-                      icon: Icon(Icons.home), labelText: "Sangha"),
+                      icon: Icon(Icons.temple_buddhist), labelText: "Sangha"),
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
@@ -130,7 +173,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
                   onPressed: () async {
                     final uid = FirebaseAuth.instance.currentUser?.uid;
                     userModel addOnData = userModel(
-                        bloodgroup: bloodgroupController.text.trim(),
+                        bloodgroup: dropdownValue,
                         city: cityController.text.trim(),
                         proffesion: professionController.text.trim(),
                         sangha: sanghaController.text.trim(),

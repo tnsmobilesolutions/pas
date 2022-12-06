@@ -16,7 +16,7 @@ class SerachUserWidget extends StatefulWidget {
 }
 
 class _SerachUserWidgetState extends State<SerachUserWidget> {
-  final TextEditingController SearchController = TextEditingController();
+  final TextEditingController searchController = TextEditingController();
   String searchItem = '';
   APIType? type;
   String? _selectedSearchType;
@@ -55,7 +55,7 @@ class _SerachUserWidgetState extends State<SerachUserWidget> {
                 children: [
                   DropdownButton(
                     focusColor: Colors.grey,
-                    hint: Text('Search By'),
+                    hint: const Text('Search By'),
                     borderRadius: BorderRadius.circular(15),
                     value: _selectedSearchType,
                     onChanged: (value) {
@@ -74,8 +74,8 @@ class _SerachUserWidgetState extends State<SerachUserWidget> {
                     iconEnabledColor: Colors.blue,
                     iconDisabledColor: Colors.blue,
                     iconSize: 40,
-                    icon: Icon(Icons.arrow_drop_down_outlined),
-                    underline: Text(''),
+                    icon: const Icon(Icons.arrow_drop_down_outlined),
+                    underline: const Text(''),
                   ),
                   Expanded(
                     child: TextFormField(
@@ -89,7 +89,7 @@ class _SerachUserWidgetState extends State<SerachUserWidget> {
                       },
                       decoration: InputDecoration(
                         // icon: const Icon(Icons.search),
-                        labelText: "Search What you want",
+                        labelText: "Search Text",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),
@@ -98,7 +98,7 @@ class _SerachUserWidgetState extends State<SerachUserWidget> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               const SizedBox(height: 30),

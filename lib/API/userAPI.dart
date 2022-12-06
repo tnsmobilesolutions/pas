@@ -45,14 +45,13 @@ class UserAPI {
 //SIGNIN
 
   Future<userModel?> signIn(String email, String password) async {
-    UserCredential? userCredential;
     try {
-      userCredential = await auth
+      UserCredential userCredential = await auth
           .signInWithEmailAndPassword(email: email, password: password)
           .then((uid) => uid);
 
       final user = usercollection
-          .where("uid", isEqualTo: userCredential?.user?.uid)
+          .where("uid", isEqualTo: userCredential.user?.uid)
           .get()
           .then(
         (querySnapshot) {
@@ -67,14 +66,6 @@ class UserAPI {
 
       //return uid.user?.uid;
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        //print('No user found for that email.');
-        const Text('data');
-      } else if (e.code == 'wrong-password') {
-        //print('Wrong password provided for that user.');
-        return null;
-      }
-    } on Exception catch (e) {
       print(e.toString());
     }
     return null;

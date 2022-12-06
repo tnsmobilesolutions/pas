@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 
 class CurrentTheme {
-  final kprofilrTextstyle =
-      const TextStyle(fontSize: 20, fontWeight: FontWeight.normal);
+  final kprofilrDatastyle = const TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w400,
+  );
+  final kProfileKeyTextStyle =
+      const TextStyle(fontSize: 15, color: Colors.grey);
+  final kProfileDivider = Divider(
+    thickness: 0.4,
+    color: Colors.grey,
+  );
   static ThemeData customTheme = ThemeData(
     primarySwatch: Colors.blue,
     brightness: Brightness.light,

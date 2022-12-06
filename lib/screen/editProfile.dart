@@ -19,7 +19,17 @@ class _EditProfileState extends State<EditProfile> {
   final nameController = TextEditingController();
   // final emailController = TextEditingController();
   final mobileController = TextEditingController();
-
+  List<String> bloodGrouplist = <String>[
+    'A+',
+    'A-',
+    'B+',
+    'B-',
+    'O+',
+    'O-',
+    'AB+',
+    'AB-'
+  ];
+  String? dropdownValue;
   final TextEditingController bloodgroupController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   final TextEditingController professionController = TextEditingController();
@@ -31,7 +41,7 @@ class _EditProfileState extends State<EditProfile> {
     nameController.text = widget.currentUser?.name ?? '';
     // emailController.text = widget.currentUser?.email ?? '';
     mobileController.text = widget.currentUser?.phoneNumber ?? '';
-    bloodgroupController.text = widget.currentUser?.bloodgroup ?? '';
+    dropdownValue = widget.currentUser?.bloodgroup ?? '';
     cityController.text = widget.currentUser?.city ?? '';
     professionController.text = widget.currentUser?.proffesion ?? '';
     sanghaController.text = widget.currentUser?.sangha ?? '';
@@ -67,35 +77,8 @@ class _EditProfileState extends State<EditProfile> {
                   icon: Icon(Icons.person),
                   // hintText: 'Name',
                   labelText: "Name"),
-              // hintStyle:
-              //     TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              // fillColor: Colors.grey,
-              // focusColor: Colors.grey),
             ),
             const SizedBox(height: 10),
-            // TextFormField(
-            //   keyboardType: TextInputType.emailAddress,
-            //   controller: emailController,
-            //   onSaved: (newValue) => emailController,
-            //   validator: (value) {
-            //     // Returns true if email address is in use.
-
-            //     if (value == null || value.isEmpty) {
-            //       return ("Please enter Your Email");
-            //     }
-            //     // reg expression for email validation
-            //     else if (!(RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z]+\.[a-zA-Z]+"))
-            //         .hasMatch(value)) {
-            //       return ("Please enter a valid email");
-            //     }
-            //     //else if () {}
-            //     return null;
-            //   },
-            //   decoration: const InputDecoration(
-            //       icon: Icon(Icons.email),
-            //       // hintText: 'Enter Your Email',
-            //       labelText: 'Email'),
-            // ),
             const SizedBox(height: 10),
             TextFormField(
               keyboardType: TextInputType.phone,
@@ -117,16 +100,49 @@ class _EditProfileState extends State<EditProfile> {
                   labelText: 'Mobile Number'),
             ),
             const SizedBox(height: 10),
-            TextFormField(
-              controller: bloodgroupController,
-              decoration: const InputDecoration(
-                  icon: Icon(Icons.bloodtype), labelText: "Blood Group"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: const [
+                    Icon(Icons.bloodtype, color: Colors.green),
+                    SizedBox(width: 15),
+                    Text('Blood Group'),
+                  ],
+                ),
+                DropdownButton<String>(
+                  value: dropdownValue,
+                  icon: const Icon(Icons.arrow_downward,
+                      color: Color(0xFFfa6e0f)),
+                  elevation: 16,
+                  hint: const Text('Select BloodGroup'),
+                  // style: const TextStyle(color: Colors.deepPurple),
+                  underline: Container(
+                    height: 2,
+                    color: const Color(0xFFfa6e0f),
+                  ),
+                  onChanged: (String? value) {
+                    // This is called when the user selects an item.
+                    setState(() {
+                      dropdownValue = value!;
+                    });
+                  },
+                  items: bloodGrouplist
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ],
             ),
             const SizedBox(height: 10),
             TextFormField(
               controller: sanghaController,
               decoration: const InputDecoration(
-                  icon: Icon(Icons.temple_hindu), labelText: "Sangha"),
+                  icon: Icon(Icons.temple_buddhist), labelText: "Sangha"),
             ),
             const SizedBox(height: 10),
             TextFormField(
