@@ -27,7 +27,7 @@ class LoginPage extends StatelessWidget {
               cardElevation: 1,
               title: 'Prabasi Anchalika Sangha',
               loginPageTextStyle:
-                  TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               scaffoldbackGroundColor: const Color(0xFFf6f6f6),
               cardColor: const Color(0xFFfefefe),
               isSignUpVisible: true,

@@ -19,7 +19,7 @@ class _EditProfileState extends State<EditProfile> {
   final nameController = TextEditingController();
   // final emailController = TextEditingController();
   final mobileController = TextEditingController();
-  List<String> bloodGrouplist = <String>[
+  List<String> bloodGrouplist = [
     'A+',
     'A-',
     'B+',
@@ -30,7 +30,7 @@ class _EditProfileState extends State<EditProfile> {
     'AB-'
   ];
   String? dropdownValue;
-  final TextEditingController bloodgroupController = TextEditingController();
+
   final TextEditingController cityController = TextEditingController();
   final TextEditingController professionController = TextEditingController();
   final TextEditingController sanghaController = TextEditingController();
@@ -39,9 +39,11 @@ class _EditProfileState extends State<EditProfile> {
   @override
   void initState() {
     nameController.text = widget.currentUser?.name ?? '';
-    // emailController.text = widget.currentUser?.email ?? '';
+    // emailController.text = widget.currentUser?.email ?? ;
     mobileController.text = widget.currentUser?.phoneNumber ?? '';
-    dropdownValue = widget.currentUser?.bloodgroup ?? '';
+    dropdownValue = widget.currentUser?.bloodgroup != ""
+        ? widget.currentUser?.bloodgroup
+        : dropdownValue;
     cityController.text = widget.currentUser?.city ?? '';
     professionController.text = widget.currentUser?.proffesion ?? '';
     sanghaController.text = widget.currentUser?.sangha ?? '';
@@ -61,6 +63,46 @@ class _EditProfileState extends State<EditProfile> {
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: const [
+                    Icon(Icons.bloodtype, color: Colors.green),
+                    SizedBox(width: 15),
+                    Text('Blood Group'),
+                  ],
+                ),
+                DropdownButton(
+                  value: dropdownValue,
+
+                  icon: const Icon(Icons.arrow_downward,
+                      color: Color(0xFFfa6e0f)),
+                  elevation: 16,
+                  hint: const Text('Select BloodGroup'),
+                  // style: const TextStyle(color: Colors.deepPurple),
+                  underline: Container(
+                    height: 3,
+                    color: const Color(0xFFfa6e0f),
+                  ),
+                  onChanged: (String? value) {
+                    // This is called when the user selects an item.
+                    setState(() {
+                      dropdownValue = value!;
+                    });
+                  },
+                  items: bloodGrouplist
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
             TextFormField(
               controller: nameController,
               onSaved: (newValue) => nameController,
@@ -78,7 +120,6 @@ class _EditProfileState extends State<EditProfile> {
                   // hintText: 'Name',
                   labelText: "Name"),
             ),
-            const SizedBox(height: 10),
             const SizedBox(height: 10),
             TextFormField(
               keyboardType: TextInputType.phone,
@@ -98,45 +139,6 @@ class _EditProfileState extends State<EditProfile> {
                   icon: Icon(Icons.phone),
                   // hintText: 'Enter Your Mobile Number',
                   labelText: 'Mobile Number'),
-            ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
-                    Icon(Icons.bloodtype, color: Colors.green),
-                    SizedBox(width: 15),
-                    Text('Blood Group'),
-                  ],
-                ),
-                DropdownButton<String>(
-                  value: dropdownValue,
-                  icon: const Icon(Icons.arrow_downward,
-                      color: Color(0xFFfa6e0f)),
-                  elevation: 16,
-                  hint: const Text('Select BloodGroup'),
-                  // style: const TextStyle(color: Colors.deepPurple),
-                  underline: Container(
-                    height: 2,
-                    color: const Color(0xFFfa6e0f),
-                  ),
-                  onChanged: (String? value) {
-                    // This is called when the user selects an item.
-                    setState(() {
-                      dropdownValue = value!;
-                    });
-                  },
-                  items: bloodGrouplist
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
-              ],
             ),
             const SizedBox(height: 10),
             TextFormField(
@@ -167,7 +169,7 @@ class _EditProfileState extends State<EditProfile> {
                         name: nameController.text,
                         uid: uid,
                         phoneNumber: mobileController.text,
-                        bloodgroup: bloodgroupController.text,
+                        bloodgroup: dropdownValue,
                         sangha: sanghaController.text,
                         city: cityController.text,
                         proffesion: professionController.text);

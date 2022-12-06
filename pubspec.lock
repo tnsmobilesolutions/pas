@@ -27,7 +27,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "108ae438247c7c3fad47e1ade606634d48c6952f"
+      resolved-ref: "91551ccd0c0cffa039213e677a1c7c7f0f50ddc4"
       url: "https://github.com/tnsmobilesolutions/tnsauthentication.git"
     source: git
     version: "0.0.1"
@@ -596,7 +596,7 @@ packages:
       name: uuid
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.6"
+    version: "3.0.7"
   vector_math:
     dependency: transitive
     description:
@@ -610,7 +610,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.1"
+    version: "3.1.2"
   xdg_directories:
     dependency: transitive
     description:

@@ -100,7 +100,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
                     backgroundColor: const Color(0xFFfa6e0f),
                     radius: 60,
                     backgroundImage:
-                        (imageFile != null) ? FileImage(imageFile!) : null,
+                        imageFile != null ? FileImage(imageFile!) : null,
                     child: (imageFile == null)
                         ? const Icon(
                             Icons.person,
