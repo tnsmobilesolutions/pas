@@ -69,10 +69,11 @@ class LoginPage extends StatelessWidget {
                 );
 
                 await UserAPI().emailSignUp(newUser, password);
+                // ignore: use_build_context_synchronously
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const CompleteProfile(),
+                      builder: (context) => CompleteProfile(newuser: newUser),
                     ));
               },
             ),

@@ -1,11 +1,7 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_cropper/image_cropper.dart';
-
-import 'package:image_picker/image_picker.dart';
 
 import 'package:prabasi_anchalika_sangha/bloc/profile/profile_bloc.dart';
 
@@ -13,62 +9,13 @@ import 'package:prabasi_anchalika_sangha/screen/editProfile.dart';
 import 'package:prabasi_anchalika_sangha/screen/theme.dart';
 
 class MyProfile extends StatefulWidget {
-  MyProfile({Key? key}) : super(key: key);
+  const MyProfile({Key? key}) : super(key: key);
 
   @override
   State<MyProfile> createState() => _MyProfileState();
 }
 
 class _MyProfileState extends State<MyProfile> {
-  File? imageFile;
-  void selectImage(ImageSource source) async {
-    XFile? pickedFile = await ImagePicker().pickImage(source: source);
-  }
-
-  void showPhotoOptions() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text("Upload Profile Picture"),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ListTile(
-                  onTap: () {
-                    Navigator.pop(context);
-                    selectImage(ImageSource.gallery);
-                  },
-                  leading: const Icon(Icons.photo_album),
-                  title: const Text("Select from Gallery"),
-                ),
-                ListTile(
-                  onTap: () {
-                    Navigator.pop(context);
-                    selectImage(ImageSource.camera);
-                  },
-                  leading: const Icon(Icons.camera_alt),
-                  title: const Text("Take a photo"),
-                ),
-              ],
-            ),
-          );
-        });
-  }
-  // userModel? state.currentUser
-  // initialData() async {
-  //   final user = await UserAPI().currentUser();
-  //   setState(() {
-  //     currentUser = user;
-  //   });
-  // }
-
-  // @override
-  // void initState() {
-  //   initialData();
-  //   super.initState();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ProfileBloc, ProfileState>(
@@ -96,17 +43,16 @@ class _MyProfileState extends State<MyProfile> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CupertinoButton(
-                      onPressed: () {
-                        showPhotoOptions();
-                      },
-                      child: CircleAvatar(
-                        radius: 50,
-                        child: Icon(
-                          Icons.person,
-                          size: 60,
-                        ),
-                      ),
+                    CircleAvatar(
+                      radius: 60,
+                      backgroundImage:
+                          NetworkImage('${state.currentUser.profilepicURL}'),
+                      child: state.currentUser.profilepicURL == null
+                          ? const Icon(
+                              Icons.person,
+                              size: 60,
+                            )
+                          : null,
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -157,7 +103,7 @@ class _MyProfileState extends State<MyProfile> {
                             CurrentTheme().kProfileDivider
                           ],
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -168,11 +114,11 @@ class _MyProfileState extends State<MyProfile> {
                             CurrentTheme().kProfileDivider
                           ],
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                               'City',
                               style: TextStyle(
                                 color: Colors.grey,
@@ -184,7 +130,7 @@ class _MyProfileState extends State<MyProfile> {
                             CurrentTheme().kProfileDivider
                           ],
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

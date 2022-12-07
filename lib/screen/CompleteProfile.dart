@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,8 @@ import 'package:prabasi_anchalika_sangha/model/userModel.dart';
 import 'package:prabasi_anchalika_sangha/screen/homescreen.dart';
 
 class CompleteProfile extends StatefulWidget {
-  const CompleteProfile({Key? key}) : super(key: key);
+  CompleteProfile({Key? key, this.newuser}) : super(key: key);
+  userModel? newuser;
 
   @override
   State<CompleteProfile> createState() => _CompleteProfileState();
@@ -28,16 +30,20 @@ class _CompleteProfileState extends State<CompleteProfile> {
     'AB+',
     'AB-'
   ];
+  String? profileImage;
+  XFile? previewImage;
+  void selectImage(ImageSource source) async {
+    XFile? pickedFile = await ImagePicker().pickImage(source: source);
+    setState(() {
+      previewImage = pickedFile;
+    });
+  }
 
   File? imageFile;
   String? dropdownValue;
   final TextEditingController cityController = TextEditingController();
   final TextEditingController professionController = TextEditingController();
   final TextEditingController sanghaController = TextEditingController();
-
-  void selectImage(ImageSource source) async {
-    XFile? pickedFile = await ImagePicker().pickImage(source: source);
-  }
 
   void showPhotoOptions() {
     showDialog(
@@ -68,6 +74,19 @@ class _CompleteProfileState extends State<CompleteProfile> {
             ),
           );
         });
+  }
+
+  Future<String?> uploadImageToFirebaseStorage(XFile image) async {
+    // print('**************${getImageName(image)}**************');
+    Reference storage = FirebaseStorage.instance
+        .ref('${widget.newuser?.name}}/${getImageName(image)}');
+    await storage.putFile(File(image.path));
+    return await storage.getDownloadURL();
+  }
+
+  //return image name
+  String getImageName(XFile image) {
+    return image.path.split("/").last;
   }
 
   @override
@@ -101,12 +120,6 @@ class _CompleteProfileState extends State<CompleteProfile> {
                     radius: 60,
                     backgroundImage:
                         imageFile != null ? FileImage(imageFile!) : null,
-                    child: (imageFile == null)
-                        ? const Icon(
-                            Icons.person,
-                            size: 60,
-                          )
-                        : null,
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -172,11 +185,15 @@ class _CompleteProfileState extends State<CompleteProfile> {
                   color: const Color(0xFFfa6e0f),
                   onPressed: () async {
                     final uid = FirebaseAuth.instance.currentUser?.uid;
+                    profileImage = previewImage != null
+                        ? await uploadImageToFirebaseStorage(previewImage!)
+                        : null;
                     userModel addOnData = userModel(
                         bloodgroup: dropdownValue,
                         city: cityController.text.trim(),
                         proffesion: professionController.text.trim(),
                         sangha: sanghaController.text.trim(),
+                        profilepicURL: profileImage,
                         uid: uid);
                     UserAPI().addcompleteProfileData(addOnData);
 

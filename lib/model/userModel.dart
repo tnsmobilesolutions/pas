@@ -10,6 +10,7 @@ class userModel {
   String? city;
   String? proffesion;
   String? uid;
+  String? profilepicURL;
   userModel({
     this.name,
     this.email,
@@ -20,6 +21,7 @@ class userModel {
     this.city,
     this.proffesion,
     this.uid,
+    this.profilepicURL,
   });
 
   userModel copyWith({
@@ -32,6 +34,7 @@ class userModel {
     String? city,
     String? proffesion,
     String? uid,
+    String? profilepicURL,
   }) {
     return userModel(
       name: name ?? this.name,
@@ -43,6 +46,7 @@ class userModel {
       city: city ?? this.city,
       proffesion: proffesion ?? this.proffesion,
       uid: uid ?? this.uid,
+      profilepicURL: profilepicURL ?? this.profilepicURL,
     );
   }
 
@@ -76,6 +80,9 @@ class userModel {
     if (uid != null) {
       result.addAll({'uid': uid});
     }
+    if (profilepicURL != null) {
+      result.addAll({'profilepicURL': profilepicURL});
+    }
 
     return result;
   }
@@ -91,6 +98,7 @@ class userModel {
       city: map['city'],
       proffesion: map['proffesion'],
       uid: map['uid'],
+      profilepicURL: map['profilepicURL'],
     );
   }
 
@@ -101,7 +109,7 @@ class userModel {
 
   @override
   String toString() {
-    return 'UserModel(name: $name, email: $email, phoneNumber: $phoneNumber, userId: $userId, bloodgroup: $bloodgroup, sangha: $sangha, city: $city, proffesion: $proffesion, uid: $uid)';
+    return 'userModel(name: $name, email: $email, phoneNumber: $phoneNumber, userId: $userId, bloodgroup: $bloodgroup, sangha: $sangha, city: $city, proffesion: $proffesion, uid: $uid, profilepicURL: $profilepicURL)';
   }
 
   @override
@@ -117,7 +125,8 @@ class userModel {
         other.sangha == sangha &&
         other.city == city &&
         other.proffesion == proffesion &&
-        other.uid == uid;
+        other.uid == uid &&
+        other.profilepicURL == profilepicURL;
   }
 
   @override
@@ -130,6 +139,7 @@ class userModel {
         sangha.hashCode ^
         city.hashCode ^
         proffesion.hashCode ^
-        uid.hashCode;
+        uid.hashCode ^
+        profilepicURL.hashCode;
   }
 }
