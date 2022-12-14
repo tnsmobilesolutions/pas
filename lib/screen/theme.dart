@@ -15,6 +15,7 @@ class CurrentTheme {
     primarySwatch: Colors.blue,
     brightness: Brightness.light,
     scaffoldBackgroundColor: const Color(0xFFf6f6f6),
+
     buttonTheme: const ButtonThemeData(
       buttonColor: Color(0xFFfa6e0f),
     ),

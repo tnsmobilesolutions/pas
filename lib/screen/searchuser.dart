@@ -1,10 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:prabasi_anchalika_sangha/API/searchAPI.dart';
-import 'package:prabasi_anchalika_sangha/API/userAPI.dart';
+
 import 'package:prabasi_anchalika_sangha/model/userModel.dart';
-import 'package:prabasi_anchalika_sangha/screen/searchresult.dart';
 
 enum APIType { search, fetchAll }
 
@@ -30,6 +27,7 @@ class _SerachUserWidgetState extends State<SerachUserWidget> {
     'Blood Group',
     'City',
     'Proffession'
+        'Birth Place'
   ];
 
   List<userModel>? searchResult = [];
@@ -43,6 +41,14 @@ class _SerachUserWidgetState extends State<SerachUserWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Search User'),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back)),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -107,22 +113,40 @@ class _SerachUserWidgetState extends State<SerachUserWidget> {
                 shrinkWrap: true,
                 itemCount: searchResult?.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Card(
-                    child: ListTile(
-                      title: Text(searchResult != null
-                          ? searchResult![index].name.toString()
-                          : ''),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(searchResult![index].sangha.toString()),
-                          Text(searchResult![index].bloodgroup.toString()),
-                          Text(searchResult![index].phoneNumber.toString()),
-                          Text(searchResult![index].email.toString()),
-                          Text(searchResult![index].proffesion.toString()),
-                        ],
+                  return Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 30,
+                        backgroundColor: Color(0xFFfa6e0f),
+                        backgroundImage: searchResult != null
+                            ? NetworkImage(
+                                '${searchResult![index].profilepicURL}')
+                            : null,
                       ),
-                    ),
+                      Expanded(
+                        child: Card(
+                          child: ListTile(
+                            title: Text(searchResult != null
+                                ? searchResult![index].name.toString()
+                                : ''),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(searchResult![index].sangha.toString()),
+                                Text(
+                                    searchResult![index].bloodgroup.toString()),
+                                Text(searchResult![index]
+                                    .phoneNumber
+                                    .toString()),
+                                Text(searchResult![index].email.toString()),
+                                Text(
+                                    searchResult![index].proffesion.toString()),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   );
                 },
               ),

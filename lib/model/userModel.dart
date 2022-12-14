@@ -11,6 +11,9 @@ class userModel {
   String? proffesion;
   String? uid;
   String? profilepicURL;
+  String? birthPlace;
+  String? temporaryAddress;
+  String? permanentAddress;
   userModel({
     this.name,
     this.email,
@@ -22,6 +25,9 @@ class userModel {
     this.proffesion,
     this.uid,
     this.profilepicURL,
+    this.birthPlace,
+    this.temporaryAddress,
+    this.permanentAddress,
   });
 
   userModel copyWith({
@@ -35,6 +41,9 @@ class userModel {
     String? proffesion,
     String? uid,
     String? profilepicURL,
+    String? birthPlace,
+    String? temporaryAddress,
+    String? permanentAddress,
   }) {
     return userModel(
       name: name ?? this.name,
@@ -47,6 +56,9 @@ class userModel {
       proffesion: proffesion ?? this.proffesion,
       uid: uid ?? this.uid,
       profilepicURL: profilepicURL ?? this.profilepicURL,
+      birthPlace: birthPlace ?? this.birthPlace,
+      temporaryAddress: temporaryAddress ?? this.temporaryAddress,
+      permanentAddress: permanentAddress ?? this.permanentAddress,
     );
   }
 
@@ -83,6 +95,15 @@ class userModel {
     if (profilepicURL != null) {
       result.addAll({'profilepicURL': profilepicURL});
     }
+    if (birthPlace != null) {
+      result.addAll({'birthPlace': birthPlace});
+    }
+    if (temporaryAddress != null) {
+      result.addAll({'temporaryAddress': temporaryAddress});
+    }
+    if (permanentAddress != null) {
+      result.addAll({'permanentAddress': permanentAddress});
+    }
 
     return result;
   }
@@ -99,6 +120,9 @@ class userModel {
       proffesion: map['proffesion'],
       uid: map['uid'],
       profilepicURL: map['profilepicURL'],
+      birthPlace: map['birthPlace'],
+      temporaryAddress: map['temporaryAddress'],
+      permanentAddress: map['permanentAddress'],
     );
   }
 
@@ -109,7 +133,7 @@ class userModel {
 
   @override
   String toString() {
-    return 'userModel(name: $name, email: $email, phoneNumber: $phoneNumber, userId: $userId, bloodgroup: $bloodgroup, sangha: $sangha, city: $city, proffesion: $proffesion, uid: $uid, profilepicURL: $profilepicURL)';
+    return 'userModel(name: $name, email: $email, phoneNumber: $phoneNumber, userId: $userId, bloodgroup: $bloodgroup, sangha: $sangha, city: $city, proffesion: $proffesion, uid: $uid, profilepicURL: $profilepicURL, birthPlace: $birthPlace, temporaryAddress: $temporaryAddress, permanentAddress: $permanentAddress)';
   }
 
   @override
@@ -126,7 +150,10 @@ class userModel {
         other.city == city &&
         other.proffesion == proffesion &&
         other.uid == uid &&
-        other.profilepicURL == profilepicURL;
+        other.profilepicURL == profilepicURL &&
+        other.birthPlace == birthPlace &&
+        other.temporaryAddress == temporaryAddress &&
+        other.permanentAddress == permanentAddress;
   }
 
   @override
@@ -140,6 +167,9 @@ class userModel {
         city.hashCode ^
         proffesion.hashCode ^
         uid.hashCode ^
-        profilepicURL.hashCode;
+        profilepicURL.hashCode ^
+        birthPlace.hashCode ^
+        temporaryAddress.hashCode ^
+        permanentAddress.hashCode;
   }
 }

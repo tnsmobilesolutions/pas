@@ -59,88 +59,97 @@ class _HomeWidgetState extends State<HomeWidget> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFf6f6f6),
-      appBar: AppBar(
-        // elevation: 0,
-        // backgroundColor: const Color(0xFFf6f6f6),
-        // automaticallyImplyLeading: false,
-        title: const Text(
-          'Home',
-          style: TextStyle(color: Colors.black),
-        ),
-        centerTitle: true,
-
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.search, color: Color(0xFFfa6e0f)),
-            onPressed: (() {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const SerachUserWidget()));
-            }),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        backgroundColor: const Color(0xFFf6f6f6),
+        appBar: AppBar(
+          // elevation: 0,
+          // backgroundColor: const Color(0xFFf6f6f6),
+          // automaticallyImplyLeading: false,
+          title: const Text(
+            'Home',
+            style: TextStyle(color: Colors.black),
           ),
-        ],
-      ),
-      drawer: NavDrawer(),
-      body: SafeArea(
-        child: Container(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 60.0 * (titles.length),
-                  child: ListView.builder(
-                    itemCount: titles.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: CupertinoButton(
-                          color: const Color(0xFFfa6e0f),
-                          child: Text(titles[index].title.toString()),
-                          onPressed: (() async {
-                            final _url = await titles[index].weburl.toString();
-                            Urllunch().launchURLApp(_url);
-                          }),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                const Text('Events',
-                    style:
-                        TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-                Flexible(
-                  child: ListView.builder(
-                    itemCount: events.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: ListTile(
-                          tileColor: Colors.white,
-                          //visualDensity: VisualDensity(vertical: 4),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
+          centerTitle: true,
 
-                          title: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(events[index].eventName.toString()),
-                              const Spacer(),
-                              Text(events[index].date.toString()),
-                            ],
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.search, color: Color(0xFFfa6e0f)),
+              onPressed: (() {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SerachUserWidget()));
+              }),
+            ),
+          ],
+        ),
+        drawer: NavDrawer(),
+        body: SafeArea(
+          child: Container(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 60.0 * (titles.length),
+                    child: ListView.builder(
+                      itemCount: titles.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: CupertinoButton(
+                            color: const Color(0xFFfa6e0f),
+                            child: Text(titles[index].title.toString()),
+                            onPressed: (() async {
+                              final _url =
+                                  await titles[index].weburl.toString();
+                              Urllunch().launchURLApp(_url);
+                            }),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ],
+                  const Text('Events',
+                      style:
+                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+                  Flexible(
+                    child: ListView.builder(
+                      itemCount: events.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: ListTile(
+                            tileColor: Colors.white,
+                            //visualDensity: VisualDensity(vertical: 4),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+
+                            title: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(events[index].eventName.toString()),
+                                const Spacer(),
+                                Text(events[index].date.toString()),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

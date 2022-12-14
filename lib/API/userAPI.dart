@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:prabasi_anchalika_sangha/model/CompleteProfileModel.dart';
+
 import 'package:prabasi_anchalika_sangha/model/fetchDataModel.dart';
 import 'package:prabasi_anchalika_sangha/model/promotionsModel.dart';
 import 'package:prabasi_anchalika_sangha/model/userModel.dart';

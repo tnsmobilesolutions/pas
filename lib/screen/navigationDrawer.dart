@@ -31,6 +31,11 @@ class _NavDrawerState extends State<NavDrawer> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Drawer(
       child: SafeArea(

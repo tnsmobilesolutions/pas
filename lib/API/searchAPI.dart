@@ -41,6 +41,13 @@ class SearchAPI {
               false) {
             resultUser.add(user);
           }
+        } else if (searchBy == 'Birth Place') {
+          if (user.birthPlace
+                  ?.toLowerCase()
+                  .contains(searchedItem.toLowerCase()) ??
+              false) {
+            resultUser.add(user);
+          }
         }
       }
       return resultUser;

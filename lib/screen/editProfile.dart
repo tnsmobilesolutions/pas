@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:prabasi_anchalika_sangha/API/userAPI.dart';
 import 'package:prabasi_anchalika_sangha/bloc/profile/profile_bloc.dart';
+import 'package:prabasi_anchalika_sangha/constant.dart';
 import 'package:prabasi_anchalika_sangha/model/userModel.dart';
 
 class EditProfile extends StatefulWidget {
@@ -21,6 +22,7 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  String? birthDistrict;
   String? profileImage;
   XFile? previewImage;
   void selectImage(ImageSource source) async {
@@ -64,21 +66,16 @@ class _EditProfileState extends State<EditProfile> {
   final nameController = TextEditingController();
   // final emailController = TextEditingController();
   final mobileController = TextEditingController();
-  List<String> bloodGrouplist = [
-    'A+',
-    'A-',
-    'B+',
-    'B-',
-    'O+',
-    'O-',
-    'AB+',
-    'AB-'
-  ];
+
   String? dropdownValue;
 
   final TextEditingController cityController = TextEditingController();
   final TextEditingController professionController = TextEditingController();
   final TextEditingController sanghaController = TextEditingController();
+  final TextEditingController temporaryAdressController =
+      TextEditingController();
+  final TextEditingController permanentAddressController =
+      TextEditingController();
 
   final _formkey = GlobalKey<FormState>();
   @override
@@ -89,10 +86,16 @@ class _EditProfileState extends State<EditProfile> {
     dropdownValue = widget.currentUser?.bloodgroup != ""
         ? widget.currentUser?.bloodgroup
         : dropdownValue;
+    birthDistrict = widget.currentUser?.birthPlace != ""
+        ? widget.currentUser?.birthPlace
+        : birthDistrict;
     cityController.text = widget.currentUser?.city ?? '';
     professionController.text = widget.currentUser?.proffesion ?? '';
     sanghaController.text = widget.currentUser?.sangha ?? '';
     profileImage = widget.currentUser?.profilepicURL;
+    temporaryAdressController.text = widget.currentUser?.temporaryAddress ?? '';
+    permanentAddressController.text =
+        widget.currentUser?.permanentAddress ?? '';
 
     // TODO: implement initState
     super.initState();
@@ -126,7 +129,6 @@ class _EditProfileState extends State<EditProfile> {
               onPressed: () {
                 showPhotoOptions();
               },
-
               child: CircleAvatar(
                 backgroundImage:
                     previewImage != null && previewImage!.path.isNotEmpty
@@ -135,35 +137,8 @@ class _EditProfileState extends State<EditProfile> {
                             fit: BoxFit.cover,
                           ).image
                         : NetworkImage('${widget.currentUser?.profilepicURL}'),
-
                 radius: 60,
-                // child: previewImage != null && previewImage!.path.isNotEmpty
-                //     ? Container(child: Image.file(File(previewImage!.path)))
-                //     : widget.currentUser?.profilepicURL != null
-                //         ? null
-                //         : Icon(Icons.person),
-                // child: previewImage != null && previewImage!.path.isNotEmpty
-                //     ? Image.file(
-                //         File(previewImage!.path),
-                //       )
-                //     : profileImage != null
-                //         ? Image.network('${widget.currentUser?.profilepicURL}')
-                //         : const Icon(
-                //             Icons.person,
-                //             size: 60,
-                //           ),
               ),
-              // child: CircleAvatar(
-              //   radius: 60,
-              //   child: previewImage != null && previewImage!.path.isNotEmpty
-              //       ? Image.file(
-              //           File(previewImage!.path),
-              //         )
-              //       : Icon(
-              //           Icons.person,
-              //           size: 60,
-              //         ),
-              // ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -261,6 +236,62 @@ class _EditProfileState extends State<EditProfile> {
                   icon: Icon(Icons.work), labelText: "Profession"),
             ),
             const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: const [
+                    Icon(Icons.home, color: Colors.green),
+                    SizedBox(width: 15),
+                    Text('Birth Place'),
+                  ],
+                ),
+                DropdownButton<String>(
+                  value: birthDistrict,
+                  icon: const Icon(Icons.arrow_downward,
+                      color: Color(0xFFfa6e0f)),
+                  elevation: 16,
+                  hint: const Text('Select District'),
+                  // style: const TextStyle(color: Colors.deepPurple),
+                  underline: Container(
+                    height: 2,
+                    color: const Color(0xFFfa6e0f),
+                  ),
+                  onChanged: (String? value) {
+                    // This is called when the user selects an item.
+                    setState(() {
+                      birthDistrict = value!;
+                    });
+                  },
+                  items: districtList
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ],
+            ),
+            TextFormField(
+              controller: temporaryAdressController,
+              maxLines: 2,
+              decoration: const InputDecoration(
+                  icon: Icon(Icons.home, color: Color(0xFFfa6e0f)),
+                  labelText: "Temporary Address"),
+            ),
+            const SizedBox(height: 10),
+            //Row
+            const SizedBox(height: 10),
+            TextFormField(
+              controller: permanentAddressController,
+              maxLines: 2,
+              decoration: const InputDecoration(
+                  icon: Icon(Icons.home, color: Color(0xFFfa6e0f)),
+                  labelText: "Permanent Address"),
+            ),
+            const SizedBox(height: 20),
             BlocConsumer<ProfileBloc, ProfileState>(
               builder: (context, state) {
                 return CupertinoButton(
@@ -278,7 +309,10 @@ class _EditProfileState extends State<EditProfile> {
                         sangha: sanghaController.text,
                         city: cityController.text,
                         proffesion: professionController.text,
-                        profilepicURL: profileImage);
+                        profilepicURL: profileImage,
+                        birthPlace: birthDistrict,
+                        temporaryAddress: temporaryAdressController.text,
+                        permanentAddress: permanentAddressController.text);
                     await UserAPI().editPprofile(updatedUser);
                     context.read<ProfileBloc>().add(MyprofileEvent());
                   },

@@ -27,7 +27,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "91551ccd0c0cffa039213e677a1c7c7f0f50ddc4"
+      resolved-ref: "458a1d7a7e65be74c304815b021de62eade54342"
       url: "https://github.com/tnsmobilesolutions/tnsauthentication.git"
     source: git
     version: "0.0.1"

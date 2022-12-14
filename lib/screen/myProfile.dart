@@ -142,6 +142,39 @@ class _MyProfileState extends State<MyProfile> {
                           ],
                         ),
                         const SizedBox(height: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Birth Place',
+                                style: CurrentTheme().kProfileKeyTextStyle),
+                            Text(state.currentUser.birthPlace.toString(),
+                                style: CurrentTheme().kprofilrDatastyle),
+                            CurrentTheme().kProfileDivider
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Temporary Address',
+                                style: CurrentTheme().kProfileKeyTextStyle),
+                            Text(state.currentUser.temporaryAddress.toString(),
+                                style: CurrentTheme().kprofilrDatastyle),
+                            CurrentTheme().kProfileDivider
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('permanent Address',
+                                style: CurrentTheme().kProfileKeyTextStyle),
+                            Text(state.currentUser.permanentAddress.toString(),
+                                style: CurrentTheme().kprofilrDatastyle),
+                            CurrentTheme().kProfileDivider
+                          ],
+                        ),
+                        const SizedBox(height: 10),
                       ],
                     ),
                   ],
