@@ -27,17 +27,12 @@ class _CompleteProfileState extends State<CompleteProfile> {
     });
   }
 
-  bool? addressCheckBox = false;
   File? imageFile;
   String? bloodGroupValue;
   String? birthDistrict;
   final TextEditingController cityController = TextEditingController();
   final TextEditingController professionController = TextEditingController();
   final TextEditingController sanghaController = TextEditingController();
-  final TextEditingController temporaryAdressController =
-      TextEditingController();
-  final TextEditingController permanentAddressController =
-      TextEditingController();
 
   void showPhotoOptions() {
     showDialog(
@@ -123,7 +118,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
                                 ).image
                               : null,
                       child: previewImage == null
-                          ? Icon(
+                          ? const Icon(
                               Icons.person,
                               size: 50,
                             )
@@ -134,38 +129,30 @@ class _CompleteProfileState extends State<CompleteProfile> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: const [
-                          Icon(Icons.bloodtype, color: Color(0xFFfa6e0f)),
-                          SizedBox(width: 15),
-                          Text('Blood Group'),
-                        ],
-                      ),
-                      DropdownButton<String>(
-                        value: bloodGroupValue,
-                        icon: const Icon(Icons.arrow_downward,
-                            color: Color(0xFFfa6e0f)),
-                        elevation: 16,
-                        hint: const Text('Select BloodGroup'),
-                        // style: const TextStyle(color: Colors.deepPurple),
-                        underline: Container(
-                          height: 2,
-                          color: const Color(0xFFfa6e0f),
+                      const Icon(Icons.bloodtype, color: Colors.green),
+                      const SizedBox(width: 15),
+                      Expanded(
+                        child: DropdownButtonFormField(
+                          value: bloodGroupValue,
+
+                          elevation: 16,
+                          hint: const Text('Select BloodGroup'),
+                          // style: const TextStyle(color: Colors.deepPurple),
+
+                          onChanged: (String? value) {
+                            // This is called when the user selects an item.
+                            setState(() {
+                              bloodGroupValue = value!;
+                            });
+                          },
+                          items: bloodGrouplist
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
                         ),
-                        onChanged: (String? value) {
-                          // This is called when the user selects an item.
-                          setState(() {
-                            bloodGroupValue = value!;
-                          });
-                        },
-                        items: bloodGrouplist
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
                       ),
                     ],
                   ),
@@ -196,78 +183,34 @@ class _CompleteProfileState extends State<CompleteProfile> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: const [
-                          Icon(Icons.home, color: Color(0xFFfa6e0f)),
-                          SizedBox(width: 20),
-                          Text('Birth Place'),
-                        ],
-                      ),
-                      DropdownButton<String>(
-                        value: birthDistrict,
-                        icon: const Icon(Icons.arrow_downward,
-                            color: Color(0xFFfa6e0f)),
-                        elevation: 16,
-                        hint: const Text('Select District'),
-                        // style: const TextStyle(color: Colors.deepPurple),
-                        underline: Container(
-                          height: 2,
-                          color: const Color(0xFFfa6e0f),
+                      Icon(Icons.home, color: Color(0xFFfa6e0f)),
+                      SizedBox(width: 20),
+                      Expanded(
+                        child: DropdownButtonFormField(
+                          value: birthDistrict,
+
+                          elevation: 16,
+                          hint: const Text('Select Your Native District'),
+                          // style: const TextStyle(color: Colors.deepPurple),
+
+                          onChanged: (String? value) {
+                            // This is called when the user selects an item.
+                            setState(() {
+                              birthDistrict = value!;
+                            });
+                          },
+                          items: districtList
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
                         ),
-                        onChanged: (String? value) {
-                          // This is called when the user selects an item.
-                          setState(() {
-                            birthDistrict = value!;
-                          });
-                        },
-                        items: districtList
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
                       ),
                     ],
                   ),
-                  TextFormField(
-                    controller: temporaryAdressController,
-                    maxLines: 2,
-                    decoration: const InputDecoration(
-                        icon: Icon(Icons.home, color: Color(0xFFfa6e0f)),
-                        labelText: "Temporary Address"),
-                  ),
-
-                  const SizedBox(height: 5),
-                  TextFormField(
-                    controller: permanentAddressController,
-                    maxLines: 2,
-                    decoration: const InputDecoration(
-                        icon: Icon(Icons.home, color: Color(0xFFfa6e0f)),
-                        labelText: "Permanent Address"),
-                  ),
-                  const SizedBox(height: 5),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      const Text('Same as Temporary Address'),
-                      const SizedBox(width: 5),
-                      Checkbox(
-                        value: addressCheckBox,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            addressCheckBox = value;
-
-                            permanentAddressController.text =
-                                temporaryAdressController.text;
-                          });
-                        },
-                      ), //Checkbox
-                    ], //<Widget>[]
-                  ), //Row
-
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 30),
                   CupertinoButton(
                     color: const Color(0xFFfa6e0f),
                     onPressed: () async {
@@ -283,8 +226,6 @@ class _CompleteProfileState extends State<CompleteProfile> {
                         profilepicURL: profileImage,
                         uid: uid,
                         birthPlace: birthDistrict,
-                        temporaryAddress: temporaryAdressController.text,
-                        permanentAddress: permanentAddressController.text,
                       );
                       UserAPI().addcompleteProfileData(addOnData);
 

@@ -12,8 +12,7 @@ class userModel {
   String? uid;
   String? profilepicURL;
   String? birthPlace;
-  String? temporaryAddress;
-  String? permanentAddress;
+
   userModel({
     this.name,
     this.email,
@@ -26,8 +25,6 @@ class userModel {
     this.uid,
     this.profilepicURL,
     this.birthPlace,
-    this.temporaryAddress,
-    this.permanentAddress,
   });
 
   userModel copyWith({
@@ -42,8 +39,6 @@ class userModel {
     String? uid,
     String? profilepicURL,
     String? birthPlace,
-    String? temporaryAddress,
-    String? permanentAddress,
   }) {
     return userModel(
       name: name ?? this.name,
@@ -57,8 +52,6 @@ class userModel {
       uid: uid ?? this.uid,
       profilepicURL: profilepicURL ?? this.profilepicURL,
       birthPlace: birthPlace ?? this.birthPlace,
-      temporaryAddress: temporaryAddress ?? this.temporaryAddress,
-      permanentAddress: permanentAddress ?? this.permanentAddress,
     );
   }
 
@@ -98,12 +91,6 @@ class userModel {
     if (birthPlace != null) {
       result.addAll({'birthPlace': birthPlace});
     }
-    if (temporaryAddress != null) {
-      result.addAll({'temporaryAddress': temporaryAddress});
-    }
-    if (permanentAddress != null) {
-      result.addAll({'permanentAddress': permanentAddress});
-    }
 
     return result;
   }
@@ -121,8 +108,6 @@ class userModel {
       uid: map['uid'],
       profilepicURL: map['profilepicURL'],
       birthPlace: map['birthPlace'],
-      temporaryAddress: map['temporaryAddress'],
-      permanentAddress: map['permanentAddress'],
     );
   }
 
@@ -133,7 +118,7 @@ class userModel {
 
   @override
   String toString() {
-    return 'userModel(name: $name, email: $email, phoneNumber: $phoneNumber, userId: $userId, bloodgroup: $bloodgroup, sangha: $sangha, city: $city, proffesion: $proffesion, uid: $uid, profilepicURL: $profilepicURL, birthPlace: $birthPlace, temporaryAddress: $temporaryAddress, permanentAddress: $permanentAddress)';
+    return 'userModel(name: $name, email: $email, phoneNumber: $phoneNumber, userId: $userId, bloodgroup: $bloodgroup, sangha: $sangha, city: $city, proffesion: $proffesion, uid: $uid, profilepicURL: $profilepicURL, birthPlace: $birthPlace)';
   }
 
   @override
@@ -151,9 +136,7 @@ class userModel {
         other.proffesion == proffesion &&
         other.uid == uid &&
         other.profilepicURL == profilepicURL &&
-        other.birthPlace == birthPlace &&
-        other.temporaryAddress == temporaryAddress &&
-        other.permanentAddress == permanentAddress;
+        other.birthPlace == birthPlace;
   }
 
   @override
@@ -168,8 +151,6 @@ class userModel {
         proffesion.hashCode ^
         uid.hashCode ^
         profilepicURL.hashCode ^
-        birthPlace.hashCode ^
-        temporaryAddress.hashCode ^
-        permanentAddress.hashCode;
+        birthPlace.hashCode;
   }
 }

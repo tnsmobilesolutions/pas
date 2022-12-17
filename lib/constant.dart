@@ -1,3 +1,11 @@
+List<String> searchBy = [
+  'Name',
+  'Sangha',
+  'Blood Group',
+  'City',
+  'Proffession',
+  'Birth Place'
+];
 List<String> bloodGrouplist = <String>[
   'A+',
   'A-',
@@ -6,7 +14,7 @@ List<String> bloodGrouplist = <String>[
   'O+',
   'O-',
   'AB+',
-  'AB-'
+  'AB-',
 ];
 List<String> districtList = <String>[
   'Angul',
@@ -38,5 +46,6 @@ List<String> districtList = <String>[
   'Rayagada',
   'Sambalpur',
   'Sonepur',
-  'Sundargarh'
+  'Sundargarh',
+  'Others',
 ];

@@ -72,10 +72,6 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController cityController = TextEditingController();
   final TextEditingController professionController = TextEditingController();
   final TextEditingController sanghaController = TextEditingController();
-  final TextEditingController temporaryAdressController =
-      TextEditingController();
-  final TextEditingController permanentAddressController =
-      TextEditingController();
 
   final _formkey = GlobalKey<FormState>();
   @override
@@ -93,9 +89,6 @@ class _EditProfileState extends State<EditProfile> {
     professionController.text = widget.currentUser?.proffesion ?? '';
     sanghaController.text = widget.currentUser?.sangha ?? '';
     profileImage = widget.currentUser?.profilepicURL;
-    temporaryAdressController.text = widget.currentUser?.temporaryAddress ?? '';
-    permanentAddressController.text =
-        widget.currentUser?.permanentAddress ?? '';
 
     // TODO: implement initState
     super.initState();
@@ -130,6 +123,7 @@ class _EditProfileState extends State<EditProfile> {
                 showPhotoOptions();
               },
               child: CircleAvatar(
+                backgroundColor: const Color(0xFFfa6e0f),
                 backgroundImage:
                     previewImage != null && previewImage!.path.isNotEmpty
                         ? Image.file(
@@ -138,48 +132,51 @@ class _EditProfileState extends State<EditProfile> {
                           ).image
                         : NetworkImage('${widget.currentUser?.profilepicURL}'),
                 radius: 60,
+                child: const Align(
+                  alignment: Alignment.bottomRight,
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 20.0,
+                    child: Icon(
+                      Icons.camera_alt,
+                      size: 25.0,
+                      color: Color(0xFF404040),
+                    ),
+                  ),
+                ),
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
-                    Icon(Icons.bloodtype, color: Colors.green),
-                    SizedBox(width: 15),
-                    Text('Blood Group'),
-                  ],
-                ),
-                DropdownButton(
-                  value: dropdownValue,
+                const Icon(Icons.bloodtype, color: Colors.green),
+                const SizedBox(width: 15),
+                Expanded(
+                  child: DropdownButtonFormField(
+                    value: dropdownValue,
 
-                  icon: const Icon(Icons.arrow_downward,
-                      color: Color(0xFFfa6e0f)),
-                  elevation: 16,
-                  hint: const Text('Select BloodGroup'),
-                  // style: const TextStyle(color: Colors.deepPurple),
-                  underline: Container(
-                    height: 3,
-                    color: const Color(0xFFfa6e0f),
+                    elevation: 16,
+                    hint: const Text('Select BloodGroup'),
+                    // style: const TextStyle(color: Colors.deepPurple),
+
+                    onChanged: (String? value) {
+                      // This is called when the user selects an item.
+                      setState(() {
+                        dropdownValue = value!;
+                      });
+                    },
+                    items: bloodGrouplist
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
                   ),
-                  onChanged: (String? value) {
-                    // This is called when the user selects an item.
-                    setState(() {
-                      dropdownValue = value!;
-                    });
-                  },
-                  items: bloodGrouplist
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
                 ),
               ],
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             TextFormField(
               controller: nameController,
               onSaved: (newValue) => nameController,
@@ -193,7 +190,10 @@ class _EditProfileState extends State<EditProfile> {
                 return null;
               },
               decoration: const InputDecoration(
-                  icon: Icon(Icons.person),
+                  icon: Icon(
+                    Icons.person,
+                    color: Color(0xFFfa6e0f),
+                  ),
                   // hintText: 'Name',
                   labelText: "Name"),
             ),
@@ -213,7 +213,10 @@ class _EditProfileState extends State<EditProfile> {
                 return null;
               },
               decoration: const InputDecoration(
-                  icon: Icon(Icons.phone),
+                  icon: Icon(
+                    Icons.phone,
+                    color: Color(0xFFfa6e0f),
+                  ),
                   // hintText: 'Enter Your Mobile Number',
                   labelText: 'Mobile Number'),
             ),
@@ -221,21 +224,33 @@ class _EditProfileState extends State<EditProfile> {
             TextFormField(
               controller: sanghaController,
               decoration: const InputDecoration(
-                  icon: Icon(Icons.temple_buddhist), labelText: "Sangha"),
+                  icon: Icon(
+                    Icons.temple_buddhist,
+                    color: Color(0xFFfa6e0f),
+                  ),
+                  labelText: "Sangha"),
             ),
             const SizedBox(height: 10),
             TextFormField(
               controller: cityController,
               decoration: const InputDecoration(
-                  icon: Icon(Icons.location_city_rounded), labelText: "City"),
+                  icon: Icon(
+                    Icons.location_city_rounded,
+                    color: Color(0xFFfa6e0f),
+                  ),
+                  labelText: "City"),
             ),
             const SizedBox(height: 10),
             TextFormField(
               controller: professionController,
               decoration: const InputDecoration(
-                  icon: Icon(Icons.work), labelText: "Profession"),
+                  icon: Icon(
+                    Icons.work,
+                    color: Color(0xFFfa6e0f),
+                  ),
+                  labelText: "Profession"),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -244,53 +259,36 @@ class _EditProfileState extends State<EditProfile> {
                   children: const [
                     Icon(Icons.home, color: Colors.green),
                     SizedBox(width: 15),
-                    Text('Birth Place'),
                   ],
                 ),
-                DropdownButton<String>(
-                  value: birthDistrict,
-                  icon: const Icon(Icons.arrow_downward,
-                      color: Color(0xFFfa6e0f)),
-                  elevation: 16,
-                  hint: const Text('Select District'),
-                  // style: const TextStyle(color: Colors.deepPurple),
-                  underline: Container(
-                    height: 2,
-                    color: const Color(0xFFfa6e0f),
+                Expanded(
+                  child: DropdownButtonFormField(
+                    value: birthDistrict,
+
+                    elevation: 16,
+                    hint: const Text('Select District'),
+                    // style: const TextStyle(color: Colors.deepPurple),
+
+                    onChanged: (String? value) {
+                      // This is called when the user selects an item.
+                      setState(() {
+                        birthDistrict = value!;
+                      });
+                    },
+                    items: districtList
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
                   ),
-                  onChanged: (String? value) {
-                    // This is called when the user selects an item.
-                    setState(() {
-                      birthDistrict = value!;
-                    });
-                  },
-                  items: districtList
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
                 ),
               ],
             ),
-            TextFormField(
-              controller: temporaryAdressController,
-              maxLines: 2,
-              decoration: const InputDecoration(
-                  icon: Icon(Icons.home, color: Color(0xFFfa6e0f)),
-                  labelText: "Temporary Address"),
-            ),
-            const SizedBox(height: 10),
+
             //Row
-            const SizedBox(height: 10),
-            TextFormField(
-              controller: permanentAddressController,
-              maxLines: 2,
-              decoration: const InputDecoration(
-                  icon: Icon(Icons.home, color: Color(0xFFfa6e0f)),
-                  labelText: "Permanent Address"),
-            ),
+
             const SizedBox(height: 20),
             BlocConsumer<ProfileBloc, ProfileState>(
               builder: (context, state) {
@@ -302,17 +300,16 @@ class _EditProfileState extends State<EditProfile> {
                         ? await uploadImageToFirebaseStorage(previewImage!)
                         : null;
                     userModel updatedUser = userModel(
-                        name: nameController.text,
-                        uid: uid,
-                        phoneNumber: mobileController.text,
-                        bloodgroup: dropdownValue,
-                        sangha: sanghaController.text,
-                        city: cityController.text,
-                        proffesion: professionController.text,
-                        profilepicURL: profileImage,
-                        birthPlace: birthDistrict,
-                        temporaryAddress: temporaryAdressController.text,
-                        permanentAddress: permanentAddressController.text);
+                      name: nameController.text,
+                      uid: uid,
+                      phoneNumber: mobileController.text,
+                      bloodgroup: dropdownValue,
+                      sangha: sanghaController.text,
+                      city: cityController.text,
+                      proffesion: professionController.text,
+                      profilepicURL: profileImage,
+                      birthPlace: birthDistrict,
+                    );
                     await UserAPI().editPprofile(updatedUser);
                     context.read<ProfileBloc>().add(MyprofileEvent());
                   },

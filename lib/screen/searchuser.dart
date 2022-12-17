@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prabasi_anchalika_sangha/API/searchAPI.dart';
+import 'package:prabasi_anchalika_sangha/constant.dart';
 
 import 'package:prabasi_anchalika_sangha/model/userModel.dart';
 
@@ -16,19 +17,11 @@ class _SerachUserWidgetState extends State<SerachUserWidget> {
   final TextEditingController searchController = TextEditingController();
   String searchItem = '';
   APIType? type;
+  String? birthDistrict;
   String? _selectedSearchType;
   userModel? selectebutton;
 
   userModel? selectUser;
-
-  List<String> searchBy = [
-    'Name',
-    'Sangha',
-    'Blood Group',
-    'City',
-    'Proffession'
-        'Birth Place'
-  ];
 
   List<userModel>? searchResult = [];
 
@@ -84,26 +77,67 @@ class _SerachUserWidgetState extends State<SerachUserWidget> {
                     underline: const Text(''),
                   ),
                   Expanded(
-                    child: TextFormField(
-                      onChanged: (value) async {
-                        final result = await SearchAPI()
-                            .searchfromFirebase(_selectedSearchType, value);
-                        setState(() {
-                          //searchItem = value;
-                          searchResult = result;
-                        });
-                      },
-                      decoration: InputDecoration(
-                        // icon: const Icon(Icons.search),
-                        labelText: "Search Text",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                      ),
-                    ),
+                    child: _selectedSearchType != 'Birth Place'
+                        ? TextFormField(
+                            controller: searchController,
+                            onChanged: (value) async {
+                              if (_selectedSearchType == 'Birth Place') {
+                                value = birthDistrict.toString();
+                              }
+                              final result = await SearchAPI()
+                                  .searchfromFirebase(
+                                      _selectedSearchType, value);
+                              setState(() {
+                                //searchItem = value;
+                                searchResult = result;
+                              });
+                            },
+                            decoration: InputDecoration(
+                              labelText: "Search Text",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                            ),
+                          )
+                        : DropdownButton(
+                            value: birthDistrict,
+
+                            elevation: 16,
+                            hint: const Text('Select Your Native District'),
+                            // style: const TextStyle(color: Colors.deepPurple),
+
+                            onChanged: (String? value) {
+                              // This is called when the user selects an item.
+                              setState(() {
+                                birthDistrict = value!;
+                                searchController.text =
+                                    birthDistrict.toString();
+                              });
+                            },
+                            items: districtList
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
                   ),
                 ],
               ),
+              const SizedBox(
+                height: 10,
+              ),
+              ElevatedButton(
+                  onPressed: () async {
+                    final result = await SearchAPI().searchfromFirebase(
+                        _selectedSearchType, searchController.text);
+                    setState(() {
+                      //searchItem = value;
+                      searchResult = result;
+                    });
+                  },
+                  child: Text('Search')),
               const SizedBox(
                 height: 20,
               ),

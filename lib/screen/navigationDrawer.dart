@@ -31,38 +31,47 @@ class _NavDrawerState extends State<NavDrawer> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Drawer(
       child: SafeArea(
         child: ListView(
           // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
+
           children: [
             DrawerHeader(
-              curve: Curves.bounceIn,
+              // curve: Curves.bounceIn,
               decoration: const BoxDecoration(
                 color: Color(0xFFf6f6f6),
               ),
               child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Welcome',
-                      style:
-                          TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      '${curUser?.name}',
-                      style: const TextStyle(
-                          fontSize: 25, fontWeight: FontWeight.bold),
-                    )
-                  ],
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        radius: 40,
+                        backgroundColor: Color(0xFFfa6e0f),
+                        backgroundImage:
+                            NetworkImage('${curUser?.profilepicURL}'),
+                        child: curUser?.profilepicURL == null
+                            ? const Icon(
+                                Icons.person,
+                                size: 40,
+                              )
+                            : null,
+                      ),
+                      const Text(
+                        'Welcome',
+                        style: TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        '${curUser?.name}',
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -71,6 +80,7 @@ class _NavDrawerState extends State<NavDrawer> {
                 return ListTile(
                   leading: const Icon(
                     Icons.person,
+                    color: Color(0xFFfa6e0f),
                   ),
                   title: const Text('My Profile'),
                   onTap: () {
@@ -87,6 +97,7 @@ class _NavDrawerState extends State<NavDrawer> {
             ListTile(
               leading: const Icon(
                 Icons.search,
+                color: Color(0xFFfa6e0f),
               ),
               title: const Text('Search'),
               onTap: () {
@@ -99,6 +110,7 @@ class _NavDrawerState extends State<NavDrawer> {
             ListTile(
               leading: const Icon(
                 Icons.logout_rounded,
+                color: Color(0xFFfa6e0f),
               ),
               title: const Text('Log out'),
               onTap: () {

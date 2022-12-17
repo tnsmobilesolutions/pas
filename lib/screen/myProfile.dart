@@ -23,6 +23,15 @@ class _MyProfileState extends State<MyProfile> {
         if (state is MyprofileState) {
           return Scaffold(
             appBar: AppBar(
+              leading: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: Color(0xFFfa6e0f),
+                  )),
               title: const Text('My Profile'),
               actions: [
                 IconButton(
@@ -45,6 +54,7 @@ class _MyProfileState extends State<MyProfile> {
                   children: [
                     CircleAvatar(
                       radius: 60,
+                      backgroundColor: Color(0xFFfa6e0f),
                       backgroundImage:
                           NetworkImage('${state.currentUser.profilepicURL}'),
                       child: state.currentUser.profilepicURL == null
@@ -148,28 +158,6 @@ class _MyProfileState extends State<MyProfile> {
                             Text('Birth Place',
                                 style: CurrentTheme().kProfileKeyTextStyle),
                             Text(state.currentUser.birthPlace.toString(),
-                                style: CurrentTheme().kprofilrDatastyle),
-                            CurrentTheme().kProfileDivider
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Temporary Address',
-                                style: CurrentTheme().kProfileKeyTextStyle),
-                            Text(state.currentUser.temporaryAddress.toString(),
-                                style: CurrentTheme().kprofilrDatastyle),
-                            CurrentTheme().kProfileDivider
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('permanent Address',
-                                style: CurrentTheme().kProfileKeyTextStyle),
-                            Text(state.currentUser.permanentAddress.toString(),
                                 style: CurrentTheme().kprofilrDatastyle),
                             CurrentTheme().kProfileDivider
                           ],

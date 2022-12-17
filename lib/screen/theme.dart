@@ -7,7 +7,7 @@ class CurrentTheme {
   );
   final kProfileKeyTextStyle =
       const TextStyle(fontSize: 15, color: Colors.grey);
-  final kProfileDivider = Divider(
+  final kProfileDivider = const Divider(
     thickness: 0.4,
     color: Colors.grey,
   );
@@ -18,6 +18,14 @@ class CurrentTheme {
 
     buttonTheme: const ButtonThemeData(
       buttonColor: Color(0xFFfa6e0f),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: const Color(0xFFfa6e0f), // background (button) color
+      ),
+    ),
+    iconTheme: IconThemeData(
+      color: Color(0xFFfa6e0f),
     ),
     appBarTheme: const AppBarTheme(
         color: Color(0xFFf6f6f6),

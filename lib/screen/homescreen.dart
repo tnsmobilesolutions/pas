@@ -1,15 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:prabasi_anchalika_sangha/API/lunchURLAPI.dart';
 import 'package:prabasi_anchalika_sangha/API/userAPI.dart';
 import 'package:prabasi_anchalika_sangha/model/fetchDataModel.dart';
 import 'package:prabasi_anchalika_sangha/model/promotionsModel.dart';
 import 'package:prabasi_anchalika_sangha/model/userModel.dart';
-import 'package:prabasi_anchalika_sangha/screen/loginscreen.dart';
-import 'package:prabasi_anchalika_sangha/screen/myProfile.dart';
+
 import 'package:prabasi_anchalika_sangha/screen/navigationDrawer.dart';
 import 'package:prabasi_anchalika_sangha/screen/searchuser.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 enum APIType { search, fetchAll }
 
@@ -32,14 +30,6 @@ class _HomeWidgetState extends State<HomeWidget> {
   static List<PromotionsModel> titles = [];
   userModel? curUser;
 
-  List<String> searchBy = [
-    'Name',
-    'Sangha',
-    'Blood Group',
-    'City',
-    'Proffession'
-  ];
-
   fetchlist() async {
     final ev = await UserAPI().fetchAllevents();
     final promo = await UserAPI().fetchAllPromotions();
@@ -61,6 +51,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   @override
   void dispose() {
     super.dispose();
+    fetchlist();
   }
 
   @override
@@ -93,63 +84,71 @@ class _HomeWidgetState extends State<HomeWidget> {
         ),
         drawer: NavDrawer(),
         body: SafeArea(
-          child: Container(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 60.0 * (titles.length),
-                    child: ListView.builder(
-                      itemCount: titles.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: CupertinoButton(
-                            color: const Color(0xFFfa6e0f),
-                            child: Text(titles[index].title.toString()),
-                            onPressed: (() async {
-                              final _url =
-                                  await titles[index].weburl.toString();
-                              Urllunch().launchURLApp(_url);
-                            }),
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 60.0 * (titles.length),
+                  child: ListView.builder(
+                    itemCount: titles.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: ElevatedButton(
+                          // color: const Color(0xFFfa6e0f),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                const Color(0xFFfa6e0f)),
                           ),
-                        );
-                      },
-                    ),
-                  ),
-                  const Text('Events',
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-                  Flexible(
-                    child: ListView.builder(
-                      itemCount: events.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: ListTile(
-                            tileColor: Colors.white,
-                            //visualDensity: VisualDensity(vertical: 4),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
 
-                            title: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(events[index].eventName.toString()),
-                                const Spacer(),
-                                Text(events[index].date.toString()),
-                              ],
-                            ),
+                          onPressed: (() async {
+                            final urll = titles[index].weburl.toString();
+                            Urllunch().launchURLApp(urll);
+                          }),
+                          child: Text(
+                            titles[index].title.toString(),
+                            style: const TextStyle(fontSize: 18),
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      );
+                    },
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Text('Events',
+                    style:
+                        TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+                Flexible(
+                  child: ListView.builder(
+                    itemCount: events.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: ListTile(
+                          tileColor: Colors.white,
+                          //visualDensity: VisualDensity(vertical: 4),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(events[index].eventName.toString()),
+                              const Spacer(),
+                              Text(events[index].date.toString()),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
         ),
