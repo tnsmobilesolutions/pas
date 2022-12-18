@@ -129,7 +129,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Icon(Icons.bloodtype, color: Colors.green),
+                      const Icon(Icons.bloodtype, color: Color(0xFFfa6e0f)),
                       const SizedBox(width: 15),
                       Expanded(
                         child: DropdownButtonFormField(
