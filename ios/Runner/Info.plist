@@ -59,6 +59,7 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSPhotoLibraryUsageDescription</key>
+  <string>Photo Library Access Warning</string>
   <string>To take user profile picture</string>
   <key>NSCameraUsageDescription</key>
   <string>To choose user profile picture</string>
