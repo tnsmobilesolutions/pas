@@ -30,17 +30,12 @@ class _UrlLunchWebViewState extends State<UrlLunchWebView> {
         },
       ),
     )
-    ..loadRequest(Uri.parse("'https://www.google.com/'"));
+    ..loadRequest(Uri.parse("https://www.google.com/"));
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-            onPressed: () {
-              Navigator.of(context);
-            },
-            icon: Icon(Icons.arrow_back)),
         actions: [
           IconButton(
               onPressed: () {

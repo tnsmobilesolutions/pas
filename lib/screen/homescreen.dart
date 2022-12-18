@@ -50,12 +50,6 @@ class _HomeWidgetState extends State<HomeWidget> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    fetchlist();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async => false,
@@ -108,12 +102,12 @@ class _HomeWidgetState extends State<HomeWidget> {
                           onPressed: (() async {
                             final urll = titles[index].weburl.toString();
                             Urllunch().launchURLApp(urll);
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //       builder: (context) =>
-                            //           UrlLunchWebView(url: urll),
-                            //     ));
+                            //   Navigator.push(
+                            //       context,
+                            //       MaterialPageRoute(
+                            //         builder: (context) =>
+                            //             UrlLunchWebView(url: urll),
+                            //       ));
                           }),
                           child: Text(
                             titles[index].title.toString(),
