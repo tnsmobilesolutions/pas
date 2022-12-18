@@ -47,6 +47,8 @@ dependencies:
   flutter_bloc: 
   animated_splash_screen:
   firebase_storage: 
+  webview_flutter:
+  flip_card:
   
 
 dev_dependencies:

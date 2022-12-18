@@ -8,6 +8,7 @@ import 'package:prabasi_anchalika_sangha/model/userModel.dart';
 
 import 'package:prabasi_anchalika_sangha/screen/navigationDrawer.dart';
 import 'package:prabasi_anchalika_sangha/screen/searchuser.dart';
+import 'package:prabasi_anchalika_sangha/screen/urlLunchWebView.dart';
 
 enum APIType { search, fetchAll }
 
@@ -107,6 +108,12 @@ class _HomeWidgetState extends State<HomeWidget> {
                           onPressed: (() async {
                             final urll = titles[index].weburl.toString();
                             Urllunch().launchURLApp(urll);
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //       builder: (context) =>
+                            //           UrlLunchWebView(url: urll),
+                            //     ));
                           }),
                           child: Text(
                             titles[index].title.toString(),

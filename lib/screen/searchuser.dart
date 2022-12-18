@@ -1,7 +1,8 @@
+import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:prabasi_anchalika_sangha/API/searchAPI.dart';
 import 'package:prabasi_anchalika_sangha/constant.dart';
-
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'package:prabasi_anchalika_sangha/model/userModel.dart';
 
 enum APIType { search, fetchAll }
@@ -35,156 +36,279 @@ class _SerachUserWidgetState extends State<SerachUserWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Search User'),
+        title: const Text('Search User'),
         leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: Icon(Icons.arrow_back)),
+            icon: const Icon(Icons.arrow_back)),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            padding: const EdgeInsets.all(5.0),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  DropdownButton(
-                    focusColor: Colors.grey,
-                    hint: const Text('Search By'),
-                    borderRadius: BorderRadius.circular(15),
-                    value: _selectedSearchType,
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedSearchType = value;
-                      });
-                    },
-                    items: searchBy.map(
-                      (val) {
-                        return DropdownMenuItem(
-                          value: val,
-                          child: Text(val),
-                        );
-                      },
-                    ).toList(),
-                    iconEnabledColor: Colors.blue,
-                    iconDisabledColor: Colors.blue,
-                    iconSize: 40,
-                    icon: const Icon(Icons.arrow_drop_down_outlined),
-                    underline: const Text(''),
-                  ),
-                  Expanded(
-                    child: _selectedSearchType != 'Birth Place'
-                        ? TextFormField(
-                            controller: searchController,
-                            onChanged: (value) async {
-                              if (_selectedSearchType == 'Birth Place') {
-                                value = birthDistrict.toString();
-                              }
-                              final result = await SearchAPI()
-                                  .searchfromFirebase(
-                                      _selectedSearchType, value);
-                              setState(() {
-                                //searchItem = value;
-                                searchResult = result;
-                              });
-                            },
-                            decoration: InputDecoration(
-                              labelText: "Search Text",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                            ),
-                          )
-                        : DropdownButton(
-                            value: birthDistrict,
-
-                            elevation: 16,
-                            hint: const Text('Select Your Native District'),
-                            // style: const TextStyle(color: Colors.deepPurple),
-
-                            onChanged: (String? value) {
-                              // This is called when the user selects an item.
-                              setState(() {
-                                birthDistrict = value!;
-                                searchController.text =
-                                    birthDistrict.toString();
-                              });
-                            },
-                            items: districtList
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                          ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              ElevatedButton(
-                  onPressed: () async {
-                    final result = await SearchAPI().searchfromFirebase(
-                        _selectedSearchType, searchController.text);
-                    setState(() {
-                      //searchItem = value;
-                      searchResult = result;
-                    });
-                  },
-                  child: Text('Search')),
-              const SizedBox(
-                height: 20,
-              ),
-              const SizedBox(height: 30),
-              ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: searchResult?.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Row(
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      CircleAvatar(
-                        radius: 30,
-                        backgroundColor: Color(0xFFfa6e0f),
-                        backgroundImage: searchResult != null
-                            ? NetworkImage(
-                                '${searchResult![index].profilepicURL}')
-                            : null,
-                      ),
-                      Expanded(
-                        child: Card(
-                          child: ListTile(
-                            title: Text(searchResult != null
-                                ? searchResult![index].name.toString()
-                                : ''),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(searchResult![index].sangha.toString()),
-                                Text(
-                                    searchResult![index].bloodgroup.toString()),
-                                Text(searchResult![index]
-                                    .phoneNumber
-                                    .toString()),
-                                Text(searchResult![index].email.toString()),
-                                Text(
-                                    searchResult![index].proffesion.toString()),
-                              ],
-                            ),
-                          ),
+                      Flexible(
+                        child: DropdownButton(
+                          focusColor: Colors.grey,
+                          hint: const Text('Search By'),
+                          borderRadius: BorderRadius.circular(15),
+                          value: _selectedSearchType,
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedSearchType = value;
+                            });
+                          },
+                          items: searchBy.map(
+                            (val) {
+                              return DropdownMenuItem(
+                                value: val,
+                                child: Text(val),
+                              );
+                            },
+                          ).toList(),
+                          iconEnabledColor: Colors.blue,
+                          iconDisabledColor: Colors.blue,
+                          iconSize: 40,
+                          icon: const Icon(Icons.arrow_drop_down_outlined),
+                          underline: const Text(''),
                         ),
                       ),
+                      _selectedSearchType != 'Birth Place'
+                          ? Expanded(
+                              child: TextFormField(
+                                controller: searchController,
+                                onChanged: (value) async {
+                                  final result = await SearchAPI()
+                                      .searchfromFirebase(
+                                          _selectedSearchType, value);
+                                  setState(() {
+                                    //searchItem = value;
+                                    searchResult = result;
+                                  });
+                                },
+                                decoration: InputDecoration(
+                                  labelText: "Search Text",
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Expanded(
+                              child: DropdownButtonFormField(
+                                value: birthDistrict,
+
+                                elevation: 16,
+                                hint: const Text('Select District'),
+                                // style: const TextStyle(color: Colors.deepPurple),
+
+                                onChanged: (String? value) {
+                                  // This is called when the user selects an item.
+                                  setState(() {
+                                    birthDistrict = value!;
+                                    searchController.text =
+                                        birthDistrict.toString();
+                                  });
+                                },
+                                items: districtList
+                                    .map<DropdownMenuItem<String>>(
+                                        (String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
                     ],
-                  );
-                },
-              ),
-            ]),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ElevatedButton(
+                      onPressed: () async {
+                        final result = await SearchAPI().searchfromFirebase(
+                            _selectedSearchType, searchController.text);
+                        setState(() {
+                          //searchItem = value;
+                          searchResult = result;
+                        });
+                      },
+                      child: const Text('Search')),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const SizedBox(height: 30),
+                  ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: searchResult?.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Row(
+                        children: [
+                          Expanded(
+                            // child: Card(
+                            //   child: Row(
+                            //     mainAxisAlignment: MainAxisAlignment.start,
+                            //     children: [
+                            //       Flexible(
+                            //         child: Padding(
+                            //           padding: const EdgeInsets.only(left: 5),
+                            //           child: CircleAvatar(
+                            //             radius: 30,
+                            //             backgroundColor: Color(0xFFfa6e0f),
+                            //             backgroundImage: searchResult != null
+                            //                 ? NetworkImage(
+                            //                     '${searchResult![index].profilepicURL}')
+                            //                 : null,
+                            //           ),
+                            //         ),
+                            //       ),
+                            //       Flexible(
+                            //         child: Padding(
+                            //           padding: const EdgeInsets.all(8.0),
+                            //           child: ListTile(
+                            //             title: Text(searchResult != null
+                            //                 ? searchResult![index].name.toString()
+                            //                 : ''),
+                            //             subtitle: Column(
+                            //               crossAxisAlignment:
+                            //                   CrossAxisAlignment.start,
+                            //               children: [
+                            //                 Text(searchResult![index]
+                            //                     .sangha
+                            //                     .toString()),
+                            //                 Text(searchResult![index]
+                            //                     .bloodgroup
+                            //                     .toString()),
+                            //                 GestureDetector(
+                            //                   onTap: () {
+                            //                     UrlLauncher.launch(
+                            //                         "tel://${searchResult![index].phoneNumber}");
+                            //                   },
+                            //                   child: Text(
+                            //                     searchResult![index]
+                            //                         .phoneNumber
+                            //                         .toString(),
+                            //                     style:
+                            //                         TextStyle(color: Colors.blue),
+                            //                   ),
+                            //                 ),
+                            //                 Text(searchResult![index]
+                            //                     .email
+                            //                     .toString()),
+                            //                 Text(searchResult![index]
+                            //                     .proffesion
+                            //                     .toString()),
+                            //               ],
+                            //             ),
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
+                            child: FlipCard(
+                              fill: Fill
+                                  .fillBack, // Fill the back side of the card to make in the same size as the front.
+                              direction: FlipDirection.HORIZONTAL, // default
+                              front: Container(
+                                color: const Color(0xFFfefefe),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Flexible(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(left: 5),
+                                        child: CircleAvatar(
+                                          radius: 30,
+                                          backgroundColor:
+                                              const Color(0xFFfa6e0f),
+                                          backgroundImage: searchResult != null
+                                              ? NetworkImage(
+                                                  '${searchResult![index].profilepicURL}')
+                                              : null,
+                                        ),
+                                      ),
+                                    ),
+                                    Flexible(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: ListTile(
+                                          title: Text(searchResult != null
+                                              ? searchResult![index]
+                                                  .name
+                                                  .toString()
+                                              : ''),
+                                          subtitle: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(searchResult![index]
+                                                  .sangha
+                                                  .toString()),
+                                              Text(searchResult![index]
+                                                  .bloodgroup
+                                                  .toString()),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  UrlLauncher.launch(
+                                                      "tel://${searchResult![index].phoneNumber}");
+                                                },
+                                                child: Text(
+                                                  searchResult![index]
+                                                      .phoneNumber
+                                                      .toString(),
+                                                  style: const TextStyle(
+                                                      color: Colors.blue),
+                                                ),
+                                              ),
+                                              Text(searchResult![index]
+                                                  .email
+                                                  .toString()),
+                                              Text(searchResult![index]
+                                                  .proffesion
+                                                  .toString()),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              back: Container(
+                                color: const Color(0xFFfefefe),
+                                child: Center(
+                                    child: CircleAvatar(
+                                  backgroundColor: const Color(0xFFfa6e0f),
+                                  radius: 30,
+                                  child: IconButton(
+                                      onPressed: () {
+                                        UrlLauncher.launch(
+                                            "tel://${searchResult![index].phoneNumber}");
+                                      },
+                                      icon: const Icon(
+                                        Icons.phone,
+                                        color: Colors.white,
+                                      )),
+                                )),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ]),
           ),
         ),
       ),
