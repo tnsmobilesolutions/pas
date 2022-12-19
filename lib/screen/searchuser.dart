@@ -44,9 +44,9 @@ class _SerachUserWidgetState extends State<SerachUserWidget> {
             icon: const Icon(Icons.arrow_back)),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(5.0),
+        child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: SingleChildScrollView(
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -144,167 +144,148 @@ class _SerachUserWidgetState extends State<SerachUserWidget> {
                       },
                       child: const Text('Search')),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   const SizedBox(height: 30),
                   ListView.builder(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     itemCount: searchResult?.length,
+                    physics: ScrollPhysics(),
                     itemBuilder: (BuildContext context, int index) {
-                      return Row(
-                        children: [
-                          Expanded(
-                            // child: Card(
-                            //   child: Row(
-                            //     mainAxisAlignment: MainAxisAlignment.start,
-                            //     children: [
-                            //       Flexible(
-                            //         child: Padding(
-                            //           padding: const EdgeInsets.only(left: 5),
-                            //           child: CircleAvatar(
-                            //             radius: 30,
-                            //             backgroundColor: Color(0xFFfa6e0f),
-                            //             backgroundImage: searchResult != null
-                            //                 ? NetworkImage(
-                            //                     '${searchResult![index].profilepicURL}')
-                            //                 : null,
-                            //           ),
-                            //         ),
-                            //       ),
-                            //       Flexible(
-                            //         child: Padding(
-                            //           padding: const EdgeInsets.all(8.0),
-                            //           child: ListTile(
-                            //             title: Text(searchResult != null
-                            //                 ? searchResult![index].name.toString()
-                            //                 : ''),
-                            //             subtitle: Column(
-                            //               crossAxisAlignment:
-                            //                   CrossAxisAlignment.start,
-                            //               children: [
-                            //                 Text(searchResult![index]
-                            //                     .sangha
-                            //                     .toString()),
-                            //                 Text(searchResult![index]
-                            //                     .bloodgroup
-                            //                     .toString()),
-                            //                 GestureDetector(
-                            //                   onTap: () {
-                            //                     UrlLauncher.launch(
-                            //                         "tel://${searchResult![index].phoneNumber}");
-                            //                   },
-                            //                   child: Text(
-                            //                     searchResult![index]
-                            //                         .phoneNumber
-                            //                         .toString(),
-                            //                     style:
-                            //                         TextStyle(color: Colors.blue),
-                            //                   ),
-                            //                 ),
-                            //                 Text(searchResult![index]
-                            //                     .email
-                            //                     .toString()),
-                            //                 Text(searchResult![index]
-                            //                     .proffesion
-                            //                     .toString()),
-                            //               ],
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       ),
-                            //     ],
-                            //   ),
-                            // ),
-                            child: FlipCard(
-                              fill: Fill
-                                  .fillBack, // Fill the back side of the card to make in the same size as the front.
-                              direction: FlipDirection.HORIZONTAL, // default
-                              front: Container(
-                                color: const Color(0xFFfefefe),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Flexible(
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(left: 5),
-                                        child: CircleAvatar(
-                                          radius: 30,
-                                          backgroundColor:
-                                              const Color(0xFFfa6e0f),
-                                          backgroundImage: searchResult != null
-                                              ? NetworkImage(
-                                                  '${searchResult![index].profilepicURL}')
-                                              : null,
-                                        ),
-                                      ),
-                                    ),
-                                    Flexible(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: ListTile(
-                                          title: Text(searchResult != null
-                                              ? searchResult![index]
-                                                  .name
-                                                  .toString()
-                                              : ''),
-                                          subtitle: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(searchResult![index]
-                                                  .sangha
-                                                  .toString()),
-                                              Text(searchResult![index]
-                                                  .bloodgroup
-                                                  .toString()),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  UrlLauncher.launch(
-                                                      "tel://${searchResult![index].phoneNumber}");
-                                                },
-                                                child: Text(
-                                                  searchResult![index]
-                                                      .phoneNumber
-                                                      .toString(),
-                                                  style: const TextStyle(
-                                                      color: Colors.blue),
+                      return SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: FlipCard(
+                                    flipOnTouch: true,
+
+                                    fill: Fill
+                                        .fillBack, // Fill the back side of the card to make in the same size as the front.
+                                    direction:
+                                        FlipDirection.HORIZONTAL, // default
+                                    front: Container(
+                                      color: const Color(0xFFfefefe),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Flexible(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 5),
+                                              child: CircleAvatar(
+                                                radius: 30,
+                                                backgroundColor:
+                                                    const Color(0xFFfa6e0f),
+                                                backgroundImage: searchResult?[
+                                                                index]
+                                                            .profilepicURL !=
+                                                        null
+                                                    ? NetworkImage(
+                                                        '${searchResult?[index].profilepicURL}')
+                                                    : null,
+                                              ),
+                                            ),
+                                          ),
+                                          Flexible(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: ListTile(
+                                                title: Text(searchResult != null
+                                                    ? searchResult![index]
+                                                        .name
+                                                        .toString()
+                                                    : ''),
+                                                subtitle: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    if (searchResult![index]
+                                                                .sangha !=
+                                                            null &&
+                                                        searchResult![index]
+                                                                .sangha !=
+                                                            "")
+                                                      Text(searchResult![index]
+                                                          .sangha
+                                                          .toString()),
+                                                    if (searchResult![index]
+                                                                .bloodgroup !=
+                                                            null &&
+                                                        searchResult![index]
+                                                                .sangha !=
+                                                            "")
+                                                      Text(searchResult![index]
+                                                          .bloodgroup
+                                                          .toString()),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        UrlLauncher.launch(
+                                                            "tel://${searchResult![index].phoneNumber}");
+                                                      },
+                                                      child: Text(
+                                                        searchResult![index]
+                                                            .phoneNumber
+                                                            .toString(),
+                                                        style: const TextStyle(
+                                                            color: Colors.blue),
+                                                      ),
+                                                    ),
+                                                    Text(searchResult![index]
+                                                        .email
+                                                        .toString()),
+                                                    if (searchResult![index]
+                                                                .proffesion !=
+                                                            null &&
+                                                        searchResult![index]
+                                                                .proffesion !=
+                                                            "")
+                                                      Text(searchResult![index]
+                                                          .proffesion
+                                                          .toString()),
+                                                  ],
                                                 ),
                                               ),
-                                              Text(searchResult![index]
-                                                  .email
-                                                  .toString()),
-                                              Text(searchResult![index]
-                                                  .proffesion
-                                                  .toString()),
-                                            ],
+                                            ),
                                           ),
-                                        ),
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                              back: Container(
-                                color: const Color(0xFFfefefe),
-                                child: Center(
-                                    child: CircleAvatar(
-                                  backgroundColor: const Color(0xFFfa6e0f),
-                                  radius: 30,
-                                  child: IconButton(
-                                      onPressed: () {
-                                        UrlLauncher.launch(
-                                            "tel://${searchResult![index].phoneNumber}");
-                                      },
-                                      icon: const Icon(
-                                        Icons.phone,
-                                        color: Colors.white,
+                                    back: Container(
+                                      color: const Color(0xFFfefefe),
+                                      child: Center(
+                                          child: CircleAvatar(
+                                        backgroundColor:
+                                            const Color(0xFFfa6e0f),
+                                        radius: 30,
+                                        child: IconButton(
+                                            onPressed: () {
+                                              UrlLauncher.launch(
+                                                  "tel://${searchResult![index].phoneNumber}");
+                                            },
+                                            icon: const Icon(
+                                              Icons.phone,
+                                              color: Colors.white,
+                                            )),
                                       )),
-                                )),
-                              ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
+                            Divider(
+                              thickness: 0.3,
+                              color: const Color(0xFFfa6e0f),
+                            ),
+                            // SizedBox(
+                            //   height: 10,
+                            // )
+                          ],
+                        ),
                       );
                     },
                   ),

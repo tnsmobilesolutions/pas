@@ -80,7 +80,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         drawer: NavDrawer(),
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(10.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -91,7 +91,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                     itemCount: titles.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.all(5.0),
                         child: ElevatedButton(
                           // color: const Color(0xFFfa6e0f),
                           style: ButtonStyle(
