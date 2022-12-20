@@ -1,37 +1,37 @@
 {
   "project_info": {
-    "project_number": "239447220314",
-    "project_id": "pas-nsspuri-dev",
-    "storage_bucket": "pas-nsspuri-dev.appspot.com"
+    "project_number": "344755259053",
+    "project_id": "pas-nsspuri-prod",
+    "storage_bucket": "pas-nsspuri-prod.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:239447220314:android:6410539eb4c513c014f863",
+        "mobilesdk_app_id": "1:344755259053:android:a7d6652c858e277ad02824",
         "android_client_info": {
           "package_name": "com.tnsmobilesolutions.pas"
         }
       },
       "oauth_client": [
         {
-          "client_id": "239447220314-1asq1be0dpc05qdc101ueausphs4di04.apps.googleusercontent.com",
+          "client_id": "344755259053-ole9c9u75tlk16rrdnsl2spmgr68sdtd.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBlhKMA9Hu5NfSOi-QUmTOCCFO4PP7wRMs"
+          "current_key": "AIzaSyD9TrPXoEP2wxVULa7HlK0xSRKQT8Bwo-8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "239447220314-1asq1be0dpc05qdc101ueausphs4di04.apps.googleusercontent.com",
+              "client_id": "344755259053-ole9c9u75tlk16rrdnsl2spmgr68sdtd.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "239447220314-a144gbm8p01ombqhqn5lc1ej528v2dvv.apps.googleusercontent.com",
+              "client_id": "344755259053-m6olupeshosrns2c7fh8iffchgg0tpqe.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.example.prabasiAnchalikaSangha"

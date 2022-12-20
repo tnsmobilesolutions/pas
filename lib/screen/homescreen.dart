@@ -85,6 +85,9 @@ class _HomeWidgetState extends State<HomeWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                const Text('Actions',
+                    style:
+                        TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
                 SizedBox(
                   height: 60.0 * (titles.length),
                   child: ListView.builder(
@@ -135,15 +138,17 @@ class _HomeWidgetState extends State<HomeWidget> {
                           //visualDensity: VisualDensity(vertical: 4),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
+                          title: Text(events[index].eventName.toString()),
+                          subtitle: Text(events[index].date.toString()),
 
-                          title: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(events[index].eventName.toString()),
-                              const Spacer(),
-                              Text(events[index].date.toString()),
-                            ],
-                          ),
+                          // title: Row(
+                          //   mainAxisAlignment: MainAxisAlignment.start,
+                          //   children: [
+                          //     Text(events[index].eventName.toString()),
+                          //     const Spacer(),
+                          //     Text(events[index].date.toString()),
+                          //   ],
+                          // ),
                         ),
                       );
                     },

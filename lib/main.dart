@@ -21,7 +21,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
-    name: 'pas-nsspuri-dev',
+    name: 'pas-nsspuri-prod',
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
