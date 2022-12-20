@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.prabasi_anchalika_sangha">
+    package="com.tnsmobilesolutions.pas">
    <application
         android:label="PAS-NSS"
         android:name="${applicationName}"
